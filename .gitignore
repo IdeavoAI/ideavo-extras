@@ -1,0 +1,21 @@
+# Build output
+*.vsix
+
+# Node modules
+node_modules/
+
+# VS Code extension development
+.vscode-test/
+out/
+dist/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor directories
+.idea/

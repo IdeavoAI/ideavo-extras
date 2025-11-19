@@ -1,0 +1,26 @@
+{
+  "name": "ideavo-themes",
+  "displayName": "ideavo-themes",
+  "description": "themes for Ideavo IDE.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.106.1"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "ideavo-dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/ideavo-dark-color-theme.json"
+      },
+      {
+        "label": "ideavo-light",
+        "uiTheme": "vs",
+        "path": "./themes/ideavo-light-color-theme.json"
+      }
+    ]
+  }
+}
