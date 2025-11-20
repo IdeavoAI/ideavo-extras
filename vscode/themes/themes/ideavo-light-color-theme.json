@@ -44,7 +44,7 @@
         "button.background": "#9333ea",
         "button.border": "#0000001a",
         "button.foreground": "#FFFFFF",
-        "button.hoverBackground": "#be9edb",
+        "button.hoverBackground": "#6b379c",
         "button.secondaryBackground": "#E5E5E5",
         "button.secondaryForeground": "#3B3B3B",
         "button.secondaryHoverBackground": "#CCCCCC",
