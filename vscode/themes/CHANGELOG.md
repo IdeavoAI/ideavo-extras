@@ -23,8 +23,5 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - `variable.other.readwrite` - Changed to #87C3FF
 
 #### Light Theme
-- `activityBarTop.activeBorder` - Added purple accent (#9333ea)
-- `button.background` - Updated to #c5acdf
+- Completed light theme implementation
 - `button.hoverBackground` - Updated to #be9edb
-- `panelTitle.activeBorder` - Added purple accent (#9333ea)
-- `tab.activeBorder` - Added purple accent (#9333ea)
