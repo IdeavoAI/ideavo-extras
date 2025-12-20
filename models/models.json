@@ -7,8 +7,8 @@
     "pricing": {
       "input": 3.0,
       "output": 15.0,
-      "cachedRead": 0.3,
-      "cachedWrite": 3.75
+      "cached_read": 0.3,
+      "cached_write": 3.75
     },
     "free": false,
     "description": "Anthropic's flagship model, great for complex tasks.",
@@ -25,8 +25,8 @@
     "pricing": {
       "input": 1.0,
       "output": 5.0,
-      "cachedRead": 0.1,
-      "cachedWrite": 1.25
+      "cached_read": 0.1,
+      "cached_write": 1.25
     },
     "free": false,
     "description": "Anthropic's latest model, great for daily use.",
@@ -91,7 +91,7 @@
     "pricing": {
       "input": 0.5,
       "output": 3.0,
-      "cachedRead": 0.05
+      "cached_read": 0.05
     },
     "free": false,
     "description": "Google's latest lightweight model, great for daily use",
@@ -108,7 +108,7 @@
     "pricing": {
       "input": 2.0,
       "output": 12.0,
-      "cachedRead": 0.2
+      "cached_read": 0.2
     },
     "free": false,
     "description": "Google's latest flagship model, great for daily use",
@@ -141,7 +141,7 @@
     "pricing": {
       "input": 1.07,
       "output": 8.5,
-      "cachedRead": 0.11
+      "cached_read": 0.11
     },
     "free": false,
     "description": "OpenAI's flagship model. Powerful, for daily and complex tasks alike.",
@@ -158,7 +158,7 @@
     "pricing": {
       "input": 1.07,
       "output": 8.5,
-      "cachedRead": 0.11
+      "cached_read": 0.11
     },
     "free": false,
     "description": "OpenAI's coding model, good for daily use.",
@@ -175,7 +175,7 @@
     "pricing": {
       "input": 1.25,
       "output": 10.0,
-      "cachedRead": 0.13
+      "cached_read": 0.13
     },
     "free": false,
     "description": "OpenAI's latest coding model, good for daily use.",
@@ -192,7 +192,7 @@
     "pricing": {
       "input": 1.75,
       "output": 14.0,
-      "cachedRead": 0.17
+      "cached_read": 0.17
     },
     "free": false,
     "description": "OpenAI's latest flagship model. Good for planning, debugging, coding and more",
@@ -209,8 +209,8 @@
     "pricing": {
       "input": 3.0,
       "output": 15.0,
-      "cachedRead": 0.3,
-      "cachedWrite": 3.75
+      "cached_read": 0.3,
+      "cached_write": 3.75
     },
     "free": false,
     "description": "Anthropic's flagship model, great for complex tasks.",
@@ -227,8 +227,8 @@
     "pricing": {
       "input": 1.0,
       "output": 5.0,
-      "cachedRead": 0.1,
-      "cachedWrite": 1.25
+      "cached_read": 0.1,
+      "cached_write": 1.25
     },
     "free": false,
     "description": "Anthropic's latest model, great for daily use.",
@@ -245,8 +245,8 @@
     "pricing": {
       "input": 0.8,
       "output": 4.0,
-      "cachedRead": 0.08,
-      "cachedWrite": 1.0
+      "cached_read": 0.08,
+      "cached_write": 1.0
     },
     "free": false,
     "description": "Efficient and creative model. Excels at short-form content generation.",
@@ -263,8 +263,8 @@
     "pricing": {
       "input": 5.0,
       "output": 25.0,
-      "cachedRead": 0.5,
-      "cachedWrite": 6.25
+      "cached_read": 0.5,
+      "cached_write": 6.25
     },
     "free": false,
     "description": "Anthropic's most powerful model for difficult tasks.",
@@ -281,7 +281,7 @@
     "pricing": {
       "input": 0.6,
       "output": 2.5,
-      "cachedRead": 0.36
+      "cached_read": 0.36
     },
     "free": false,
     "description": "Versatile general-purpose model. Good for creative and analytical tasks.",
@@ -298,7 +298,7 @@
     "pricing": {
       "input": 0.6,
       "output": 2.2,
-      "cachedRead": 0.1
+      "cached_read": 0.1
     },
     "free": false,
     "description": "Latest flagship model from Z.ai's GLM series, delivering state-of-the-art agentic and coding capabilities",
