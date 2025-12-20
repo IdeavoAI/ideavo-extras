@@ -1,0 +1,326 @@
+[
+  {
+    "id": "anthropic/claude-sonnet-4-5-20250929",
+    "name": "Claude Sonnet 4.5",
+    "source": "anthropic",
+    "provider": "Ideavo",
+    "pricing": {
+      "input": 3.0,
+      "output": 15.0,
+      "cachedRead": 0.3,
+      "cachedWrite": 3.75
+    },
+    "free": false,
+    "description": "Anthropic's flagship model, great for complex tasks.",
+    "modalities": {
+      "input": ["text", "image"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "anthropic/claude-haiku-4-5-20251001",
+    "name": "Claude Haiku 4.5",
+    "source": "anthropic",
+    "provider": "Ideavo",
+    "pricing": {
+      "input": 1.0,
+      "output": 5.0,
+      "cachedRead": 0.1,
+      "cachedWrite": 1.25
+    },
+    "free": false,
+    "description": "Anthropic's latest model, great for daily use.",
+    "modalities": {
+      "input": ["text", "image"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "ideavo/glm-4.6",
+    "name": "GLM 4.6",
+    "source": "z-ai",
+    "provider": "Ideavo",
+    "pricing": {
+      "input": 0,
+      "output": 0
+    },
+    "free": true,
+    "description": "Latest flagship model from Z.ai's GLM series, delivering state-of-the-art agentic and coding capabilities",
+    "modalities": {
+      "input": ["text"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "ideavo/grok-code",
+    "name": "Grok Code Fast 1",
+    "source": "x-ai",
+    "provider": "Ideavo",
+    "pricing": {
+      "input": 0,
+      "output": 0
+    },
+    "free": true,
+    "description": "Fast and lightweight model. Ideal for simple code completions.",
+    "modalities": {
+      "input": ["text"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "opencode/big-pickle",
+    "name": "Big Pickle",
+    "source": "stealth",
+    "provider": "Zen",
+    "pricing": {
+      "input": 0,
+      "output": 0
+    },
+    "free": true,
+    "description": "Fast and lightweight model from OpenCode.",
+    "modalities": {
+      "input": ["text"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "opencode/gemini-3-flash",
+    "name": "Gemini 3 Flash",
+    "source": "google",
+    "provider": "Zen",
+    "pricing": {
+      "input": 0.5,
+      "output": 3.0,
+      "cachedRead": 0.05
+    },
+    "free": false,
+    "description": "Google's latest lightweight model, great for daily use",
+    "modalities": {
+      "input": ["text", "image"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "opencode/gemini-3-pro",
+    "name": "Gemini 3 Pro",
+    "source": "google",
+    "provider": "Zen",
+    "pricing": {
+      "input": 2.0,
+      "output": 12.0,
+      "cachedRead": 0.2
+    },
+    "free": false,
+    "description": "Google's latest flagship model, great for daily use",
+    "modalities": {
+      "input": ["text", "image"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "opencode/gpt-5-nano",
+    "name": "GPT 5 Nano",
+    "source": "openai",
+    "provider": "Zen",
+    "pricing": {
+      "input": 0,
+      "output": 0
+    },
+    "free": true,
+    "description": "OpenAI's lightweight model. Ideal for simple code tasks",
+    "modalities": {
+      "input": ["text", "image"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "opencode/gpt-5.1",
+    "name": "GPT 5.1",
+    "source": "openai",
+    "provider": "Zen",
+    "pricing": {
+      "input": 1.07,
+      "output": 8.5,
+      "cachedRead": 0.11
+    },
+    "free": false,
+    "description": "OpenAI's flagship model. Powerful, for daily and complex tasks alike.",
+    "modalities": {
+      "input": ["text", "image"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "opencode/gpt-5.1-codex",
+    "name": "GPT-5.1 Codex",
+    "source": "openai",
+    "provider": "Zen",
+    "pricing": {
+      "input": 1.07,
+      "output": 8.5,
+      "cachedRead": 0.11
+    },
+    "free": false,
+    "description": "OpenAI's coding model, good for daily use.",
+    "modalities": {
+      "input": ["text", "image"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "opencode/gpt-5.1-codex-max",
+    "name": "GPT-5.1 Codex Max",
+    "source": "openai",
+    "provider": "Zen",
+    "pricing": {
+      "input": 1.25,
+      "output": 10.0,
+      "cachedRead": 0.13
+    },
+    "free": false,
+    "description": "OpenAI's latest coding model, good for daily use.",
+    "modalities": {
+      "input": ["text", "image"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "opencode/gpt-5.2",
+    "name": "GPT 5.2",
+    "source": "openai",
+    "provider": "Zen",
+    "pricing": {
+      "input": 1.75,
+      "output": 14.0,
+      "cachedRead": 0.17
+    },
+    "free": false,
+    "description": "OpenAI's latest flagship model. Good for planning, debugging, coding and more",
+    "modalities": {
+      "input": ["text", "image"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "opencode/claude-sonnet-4-5",
+    "name": "Claude Sonnet 4.5",
+    "source": "anthropic",
+    "provider": "Zen",
+    "pricing": {
+      "input": 3.0,
+      "output": 15.0,
+      "cachedRead": 0.3,
+      "cachedWrite": 3.75
+    },
+    "free": false,
+    "description": "Anthropic's flagship model, great for complex tasks.",
+    "modalities": {
+      "input": ["text", "image"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "opencode/claude-haiku-4-5",
+    "name": "Claude Haiku 4.5",
+    "source": "anthropic",
+    "provider": "Zen",
+    "pricing": {
+      "input": 1.0,
+      "output": 5.0,
+      "cachedRead": 0.1,
+      "cachedWrite": 1.25
+    },
+    "free": false,
+    "description": "Anthropic's latest model, great for daily use.",
+    "modalities": {
+      "input": ["text", "image"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "opencode/claude-3.5-haiku",
+    "name": "Claude Haiku 3.5",
+    "source": "anthropic",
+    "provider": "Zen",
+    "pricing": {
+      "input": 0.8,
+      "output": 4.0,
+      "cachedRead": 0.08,
+      "cachedWrite": 1.0
+    },
+    "free": false,
+    "description": "Efficient and creative model. Excels at short-form content generation.",
+    "modalities": {
+      "input": ["text", "image"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "opencode/claude-opus-4-5",
+    "name": "Claude Opus 4.5",
+    "source": "anthropic",
+    "provider": "Zen",
+    "pricing": {
+      "input": 5.0,
+      "output": 25.0,
+      "cachedRead": 0.5,
+      "cachedWrite": 6.25
+    },
+    "free": false,
+    "description": "Anthropic's most powerful model for difficult tasks.",
+    "modalities": {
+      "input": ["text", "image"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "opencode/kimi-k2-thinking",
+    "name": "Kimi K2 Thinking",
+    "source": "moonshot",
+    "provider": "Zen",
+    "pricing": {
+      "input": 0.6,
+      "output": 2.5,
+      "cachedRead": 0.36
+    },
+    "free": false,
+    "description": "Versatile general-purpose model. Good for creative and analytical tasks.",
+    "modalities": {
+      "input": ["text"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "opencode/glm-4.6",
+    "name": "GLM 4.6",
+    "source": "z-ai",
+    "provider": "Zen",
+    "pricing": {
+      "input": 0.6,
+      "output": 2.2,
+      "cachedRead": 0.1
+    },
+    "free": false,
+    "description": "Latest flagship model from Z.ai's GLM series, delivering state-of-the-art agentic and coding capabilities",
+    "modalities": {
+      "input": ["text"],
+      "output": ["text"]
+    }
+  },
+  {
+    "id": "opencode/qwen3-coder",
+    "name": "Qwen3 Coder",
+    "source": "qwen",
+    "provider": "Zen",
+    "pricing": {
+      "input": 0.45,
+      "output": 1.5
+    },
+    "free": false,
+    "description": "Alibaba's latest offering optimized for coding tasks. Use for oneshot prompts, caching not supported",
+    "modalities": {
+      "input": ["text"],
+      "output": ["text"]
+    }
+  }
+]
