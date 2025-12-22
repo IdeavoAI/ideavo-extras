@@ -1,0 +1,23 @@
+name: Purge jsDelivr Cache
+
+on:
+  push:
+    branches:
+      - main
+  release:
+    types: [published]
+  workflow_dispatch:  # Allows manual triggering from GitHub UI
+
+jobs:
+  purge-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Purge jsDelivr Cache
+        uses: kaycodes13/purge-jsdelivr-cache@v1.1.0
+        with:
+          url: |
+            https://cdn.jsdelivr.net/gh/IdeavoAI/ideavo-extras@main/models/models.json
+          attempts: 2
