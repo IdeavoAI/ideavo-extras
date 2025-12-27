@@ -431,5 +431,332 @@
         "text"
       ]
     }
+  },
+  {
+    "id": "openrouter/x-ai/grok-4.1-fast",
+    "name": "Grok 4.1 Fast",
+    "source": "x-ai",
+    "provider": "OpenRouter",
+    "pricing": {
+      "input": 0.2,
+      "output": 0.5,
+      "cached_read": 0.05,
+      "cached_write": 0.05
+    },
+    "free": false,
+    "description": "xAI's best agentic tool calling model that shines in real-world use cases",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openrouter/minimax/minimax-m2.1",
+    "name": "MiniMax M2.1",
+    "source": "minimax",
+    "provider": "OpenRouter",
+    "pricing": {
+      "input": 0.3,
+      "output": 1.2
+    },
+    "free": false,
+    "description": "Lightweight, state-of-the-art model optimized for coding, agentic workflows, and modern application development.",
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openrouter/z-ai/glm-4.7",
+    "name": "GLM 4.7",
+    "source": "z-ai",
+    "provider": "OpenRouter",
+    "pricing": {
+      "input": 0.6,
+      "output": 2.2,
+      "cached_read": 0.11
+    },
+    "free": false,
+    "description": "Latest flagship model from Z.ai's GLM series",
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openrouter/google/gemini-3-flash-preview",
+    "name": "Gemini 3 Flash",
+    "source": "google",
+    "provider": "OpenRouter",
+    "pricing": {
+      "input": 0.5,
+      "output": 3.0,
+      "cached_read": 0.05
+    },
+    "free": false,
+    "description": "Google's latest lightweight model, great for daily use",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openrouter/google/gemini-3-pro-preview",
+    "name": "Gemini 3 Pro",
+    "source": "google",
+    "provider": "OpenRouter",
+    "pricing": {
+      "input": 2.0,
+      "output": 12.0,
+      "cached_read": 0.2
+    },
+    "free": false,
+    "description": "Google's latest flagship model, great for daily use",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openrouter/openai/gpt-5-nano",
+    "name": "GPT 5 Nano",
+    "source": "openai",
+    "provider": "OpenRouter",
+    "pricing": {
+      "input": 0.05,
+      "output": 0.4
+    },
+    "free": true,
+    "description": "OpenAI's lightweight model. Ideal for simple code tasks",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openrouter/openai/gpt-5.1",
+    "name": "GPT 5.1",
+    "source": "openai",
+    "provider": "OpenRouter",
+    "pricing": {
+      "input": 1.25,
+      "output": 10,
+      "cached_read": 0.13
+    },
+    "free": false,
+    "description": "OpenAI's flagship model. Powerful, for daily and complex tasks alike.",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openrouter/openai/gpt-5.1-codex",
+    "name": "GPT-5.1 Codex",
+    "source": "openai",
+    "provider": "OpenRouter",
+    "pricing": {
+      "input": 1.25,
+      "output": 10,
+      "cached_read": 0.13
+    },
+    "free": false,
+    "description": "OpenAI's coding model, good for daily use.",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openrouter/openai/gpt-5.1-codex-mini",
+    "name": "GPT-5.1 Codex Mini",
+    "source": "openai",
+    "provider": "OpenRouter",
+    "pricing": {
+      "input": 0.25,
+      "output": 2.0,
+      "cached_read": 0.03
+    },
+    "free": false,
+    "description": "OpenAI's latest lightweight coding model, good for daily use.",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openrouter/openai/gpt-5.2",
+    "name": "GPT 5.2",
+    "source": "openai",
+    "provider": "OpenRouter",
+    "pricing": {
+      "input": 1.75,
+      "output": 14.0,
+      "cached_read": 0.17
+    },
+    "free": false,
+    "description": "OpenAI's latest flagship model. Good for planning, debugging, coding and more",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openrouter/anthropic/claude-sonnet-4.5",
+    "name": "Claude Sonnet 4.5",
+    "source": "anthropic",
+    "provider": "OpenRouter",
+    "pricing": {
+      "input": 3.0,
+      "output": 15.0,
+      "cached_read": 0.3,
+      "cached_write": 3.75
+    },
+    "free": false,
+    "description": "Anthropic's flagship model, great for complex tasks.",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openrouter/anthropic/claude-haiku-4-5",
+    "name": "Claude Haiku 4.5",
+    "source": "anthropic",
+    "provider": "OpenRouter",
+    "pricing": {
+      "input": 1.0,
+      "output": 5.0,
+      "cached_read": 0.1,
+      "cached_write": 1.25
+    },
+    "free": false,
+    "description": "Anthropic's latest model, great for daily use.",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openrouter/anthropic/claude-opus-4-5",
+    "name": "Claude Opus 4.5",
+    "source": "anthropic",
+    "provider": "OpenRouter",
+    "pricing": {
+      "input": 5.0,
+      "output": 25.0,
+      "cached_read": 0.5,
+      "cached_write": 6.25
+    },
+    "free": false,
+    "description": "Anthropic's most powerful model for difficult tasks.",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openrouter/moonshotai/kimi-k2-thinking",
+    "name": "Kimi K2 Thinking",
+    "source": "moonshot",
+    "provider": "OpenRouter",
+    "pricing": {
+      "input": 0.6,
+      "output": 2.5,
+      "cached_read": 0.36
+    },
+    "free": false,
+    "description": "Versatile general-purpose model. Good for creative and analytical tasks.",
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
+    "id": "openrouter/qwen/qwen3-coder",
+    "name": "Qwen3 Coder",
+    "source": "qwen",
+    "provider": "OpenRouter",
+    "pricing": {
+      "input": 0.3,
+      "output": 1.2
+    },
+    "free": false,
+    "description": "Alibaba's latest offering optimized for coding tasks.",
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
   }
 ]
