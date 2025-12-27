@@ -549,7 +549,7 @@
       "input": 0.05,
       "output": 0.4
     },
-    "free": true,
+    "free": false,
     "description": "OpenAI's lightweight model. Ideal for simple code tasks",
     "modalities": {
       "input": [
