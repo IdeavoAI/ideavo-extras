@@ -106,6 +106,26 @@
     }
   },
   {
+    "id": "opencode/minimax-m2.1-free",
+    "name": "MiniMax M2.1",
+    "source": "minimax",
+    "provider": "Zen",
+    "pricing": {
+      "input": 0,
+      "output": 0
+    },
+    "free": true,
+    "description": "Lightweight, state-of-the-art model optimized for coding, agentic workflows, and modern application development.",
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    }
+  },
+  {
     "id": "opencode/big-pickle",
     "name": "Big Pickle",
     "source": "stealth",
