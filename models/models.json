@@ -46,46 +46,6 @@
     }
   },
   {
-    "id": "ideavo/glm-4.6",
-    "name": "GLM 4.6",
-    "source": "z-ai",
-    "provider": "Ideavo",
-    "pricing": {
-      "input": 0,
-      "output": 0
-    },
-    "free": true,
-    "description": "Latest flagship model from Z.ai's GLM series, delivering state-of-the-art agentic and coding capabilities",
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
-    "id": "ideavo/grok-code",
-    "name": "Grok Code Fast 1",
-    "source": "x-ai",
-    "provider": "Ideavo",
-    "pricing": {
-      "input": 0,
-      "output": 0
-    },
-    "free": true,
-    "description": "Fast and lightweight model. Ideal for simple code completions.",
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "opencode/glm-4.7-free",
     "name": "GLM 4.7",
     "source": "z-ai",
