@@ -20,4 +20,5 @@ jobs:
         with:
           url: |
             https://cdn.jsdelivr.net/gh/IdeavoAI/ideavo-extras@main/models/models.json
+            https://cdn.jsdelivr.net/gh/IdeavoAI/ideavo-extras@main/models/models.dev.override.json
           attempts: 2
