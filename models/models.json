@@ -66,26 +66,6 @@
     }
   },
   {
-    "id": "opencode/grok-code",
-    "name": "Grok Code Fast 1",
-    "source": "x-ai",
-    "provider": "Zen",
-    "pricing": {
-      "input": 0,
-      "output": 0
-    },
-    "free": true,
-    "description": "Fast and lightweight model. Ideal for simple code completions.",
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    }
-  },
-  {
     "id": "opencode/gemini-3-flash",
     "name": "Gemini 3 Flash",
     "source": "google",
