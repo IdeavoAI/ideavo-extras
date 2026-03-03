@@ -1,0 +1,18 @@
+{
+  "skills": [
+    {
+      "name": "auth-skill",
+      "description": "Authentication setup and implementation skill",
+      "files": [
+        "auth-skill/SKILL.md",
+        "auth-skill/references/betterauth.md",
+        "auth-skill/references/drizzle.md",
+        "auth-skill/references/auth-ui.md",
+        "auth-skill/references/email.md",
+        "auth-skill/references/organization.md",
+        "auth-skill/references/settings.md",
+        "auth-skill/scripts/create_database.py"
+      ]
+    }
+  ]
+}
