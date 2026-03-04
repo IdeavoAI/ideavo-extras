@@ -1,0 +1,29 @@
+{
+  "skills": [
+    {
+      "name": "auth-skill",
+      "description": "Authentication setup and implementation skill",
+      "files": [
+        "SKILL.md",
+        "references/betterauth.md",
+        "references/drizzle.md",
+        "references/auth-ui.md",
+        "references/email.md",
+        "references/organization.md",
+        "references/settings.md"
+      ]
+    },
+    {
+      "name": "database-skill",
+      "description": "Database setup and implementation skill",
+      "files": [
+        "SKILL.md",
+        "references/drizzle-setup.md",
+        "references/drizzle-schema.md",
+        "references/drizzle-migrations.md",
+        "references/drizzle-pitfalls.md",
+        "references/ui.md"
+      ]
+    }
+  ]
+}
