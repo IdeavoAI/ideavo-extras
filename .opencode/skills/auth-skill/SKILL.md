@@ -86,13 +86,12 @@ The script prints the database URL to stdout. Set it as `DATABASE_URL` in `.env`
 
 If the user has their own database or wants a different setup, skip this step and ask them to provide `DATABASE_URL` directly.
 
-### BETTER_AUTH_SECRET
-
-If using Better Auth and `BETTER_AUTH_SECRET` is missing from `.env`, instruct the user to generate and set one before sign-in/sign-up will work:
+### Environment variables (`.env`)
 
 ```
 BETTER_AUTH_SECRET=<generate with: openssl rand -base64 32>
-NEXT_PUBLIC_BETTER_AUTH_URL=http://localhost:3000
+BETTER_AUTH_URL=<app origin — correct port in dev, real domain in production; in monorepos use the specific app's URL>
+NEXT_PUBLIC_BETTER_AUTH_URL=<same as above>
 DATABASE_URL=<your connection string>
 ```
 
