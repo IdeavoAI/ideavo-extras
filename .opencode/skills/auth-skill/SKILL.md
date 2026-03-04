@@ -76,13 +76,7 @@ Before proceeding:
 
 ### DATABASE_URL
 
-If `DATABASE_URL` is absent from `.env` and the user explicitly wants a PostgreSQL instance provisioned, run this script from this file's directory:
-
-```bash
-python3 scripts/create_database.py neon
-```
-
-The script prints the database URL to stdout. Set it as `DATABASE_URL` in `.env`.
+If `DATABASE_URL` is absent from `.env` and the user explicitly wants a PostgreSQL instance provisioned, call the `setupdatabase` tool with `neon` as the provisioner. Set the returned connection string as `DATABASE_URL` in `.env`.
 
 If the user has their own database or wants a different setup, skip this step and ask them to provide `DATABASE_URL` directly.
 
@@ -90,8 +84,7 @@ If the user has their own database or wants a different setup, skip this step an
 
 ```
 BETTER_AUTH_SECRET=<generate with: openssl rand -base64 32>
-BETTER_AUTH_URL=<app origin — correct port in dev, real domain in production; in monorepos use the specific app's URL>
-NEXT_PUBLIC_BETTER_AUTH_URL=<same as above>
+NEXT_PUBLIC_BETTER_AUTH_URL=<app origin — correct port in dev, real domain in production; in monorepos use the specific app's URL>
 DATABASE_URL=<your connection string>
 ```
 

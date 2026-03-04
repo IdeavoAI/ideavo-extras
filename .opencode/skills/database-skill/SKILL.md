@@ -68,13 +68,7 @@ Before proceeding:
 
 Ensure `DATABASE_URL` is set before proceeding to Phase 3.
 
-If absent and the user wants Neon provisioned, run from this file's directory:
-
-```bash
-python3 scripts/create_database.py neon
-```
-
-The script prints the database URL to stdout. Set it as `DATABASE_URL` in `.env`.
+If absent and the user wants PosgreSQL/Neon provisioned, call the `setupdatabase` tool with `neon` as the provisioner. Set the returned connection string as `DATABASE_URL` in `.env`.
 
 For any other provider, ask the user to supply the connection string directly.
 

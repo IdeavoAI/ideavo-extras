@@ -10,8 +10,7 @@
         "references/auth-ui.md",
         "references/email.md",
         "references/organization.md",
-        "references/settings.md",
-        "scripts/create_database.py"
+        "references/settings.md"
       ]
     },
     {
@@ -23,8 +22,7 @@
         "references/drizzle-schema.md",
         "references/drizzle-migrations.md",
         "references/drizzle-pitfalls.md",
-        "references/ui.md",
-        "scripts/create_database.py"
+        "references/ui.md"
       ]
     }
   ]
