@@ -122,6 +122,21 @@ One style skill max per task. But **style + ui component** is always valid — l
 
 ---
 
-## Default
+## When There Is No Style Signal
 
-No clear signal → `design-skill/taste-skill/SKILL.md`
+If the user gives only an app idea with no style, vibe, or brand reference (e.g. "build a todo app", "make a recipe tracker", "create a habit logger") — **do not immediately default to taste-skill**. Think first.
+
+Ask yourself:
+- What is the core feeling this app should create? (calm focus? bold energy? raw utility?)
+- Who is likely using it? (productivity-focused? creative? developer?)
+- What would make this specific app feel *designed with intent* rather than generic?
+
+Then pick the style that best serves those answers using the vibe guide above. Commit to that choice — don't hedge or blend.
+
+**Before building, announce your choice in one sentence.**
+
+> *"Going minimalist for this — a todo app should feel calm and focused, not flashy."*
+> *"Going neobrutalist for this recipe app — food deserves bold colors and personality."*
+> *"Going taste-skill for this dashboard — data-heavy apps need polish and motion to feel alive."*
+
+If after thinking there's still genuinely no clear direction → `design-skill/taste-skill/SKILL.md`
