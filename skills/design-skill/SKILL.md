@@ -1,20 +1,62 @@
 ---
 name: design-skill
-description: Design orchestrator. Routes to the right sub-skill based on what the user wants. Never designs directly — only navigates.
+description: Design orchestrator. Routes to the right sub-skill based on what the user wants. Never designs directly — only navigates. Sub-skills: taste, minimalist, brutalist, neobrutalist, svg-animations, or specific ui component references.
 ---
 
 # Design Orchestrator
 
 Your only job: read the request, pick the right route below, load that file, and follow it fully. Do not design anything yourself. Do not blend routes.
 
-## Routing Table
+---
 
-> **Before building any UI component from scratch** — check the UI component library first.
-> Load `design-skill/ui/SKILL.md` to browse categories, then load the specific reference file.
+## Step 1 — Read the Signal
+
+Before routing, identify what the user actually wants:
+
+| Signal type | Examples |
+|---|---|
+| **Explicit style name** | "neobrutalist", "minimalist", "brutalist", "clean", "premium" |
+| **Vibe adjective** | "funky", "bold", "calm", "playful", "raw", "sleek", "editorial" |
+| **App type** | "SaaS dashboard", "portfolio", "landing page", "e-commerce", "blog" |
+| **Reference brand** | "like Gumroad", "like Notion", "like Stripe", "like Linear", "like Vercel" |
+| **Component request** | "add a marquee", "animated button", "bento grid", "particles background" |
+| **Vague improvement** | "make it look better", "spice it up", "make it feel alive", "more premium" |
+
+---
+
+## Step 2 — Pick a Style Skill
+
+### Quick Vibe → Skill Map
+
+Use this first. Match the user's energy to the right skill — don't over-think it.
+
+| If the user says / wants... | Route to |
+|---|---|
+| Funky, playful, bold, pop-art, loud, eye-catching, Gumroad-like, indie creator | `neobrutalist-web-designer` |
+| Raw, gritty, hacker, punk, CRT terminal, military, anti-design, experimental | `brutalist-skill` |
+| Clean, calm, minimal, editorial, Notion-like, quiet, breathing room | `minimalist-skill` |
+| Sleek, premium, polished, modern SaaS, motion-rich, Vercel/Stripe/Linear-like | `taste-skill` |
+| Animated SVG, icon drawing, path animation, logo animation | `svg-animations` |
+| No clear style signal, just "make it look good" | `taste-skill` (default) |
+
+### Detailed Routing Table
+
+| User wants | Load |
+|---|---|
+| SVG icons, path drawing, stroke animation, shape morphing, animated logo, visual storytelling with SVG | `design-skill/svg-animations/SKILL.md` |
+| Editorial, calm, clean, Notion/Linear feel, warm monochrome, no heavy animation | `design-skill/minimalist-skill/SKILL.md` |
+| Raw, industrial, mechanical, gritty, data-heavy, blueprint, CRT terminal, out-of-the-box | `design-skill/brutalist-skill/SKILL.md` |
+| Neobrutalism, neubrutalism, funky, playful, hard shadows, bold borders, thick outlines, SaaS with personality, Gumroad-like, indie creator, pop-art energy | `design-skill/neobrutalist-web-designer/SKILL.md` |
+| Premium SaaS, dashboard, polished modern product, motion-rich, spring physics — or no clear signal | `design-skill/taste-skill/SKILL.md` |
+
+---
+
+## Step 3 — Check for UI Components
+
+> **Before building any UI component from scratch** — check the component library first.
 > If a suitable component exists in Magic UI or Aceternity UI, always prefer it over writing custom code.
 
-### UI Components (Magic UI + Aceternity)
-Load the specific reference file — not the whole ui skill.
+### Component Reference Map
 
 | User wants | Load |
 |---|---|
@@ -30,42 +72,55 @@ Load the specific reference file — not the whole ui skill.
 | Terminal, keyboard, code block, pixel, retro, dev aesthetic | `design-skill/ui/references/dev-creative.md` |
 | Full section combining multiple components, need a recipe | `design-skill/ui/references/recipes.md` |
 
-### Design Style Skills
-Load the full SKILL.md for the matched style.
+---
 
-| User wants | Load |
-|---|---|
-| SVG icons, path drawing, stroke animation, shape morphing, animated logo, visual storytelling with SVG | `design-skill/svg-animations/SKILL.md` |
-| Editorial, calm, clean, Notion/Linear feel, warm monochrome, no heavy animation | `design-skill/minimalist-skill/SKILL.md` |
-| Raw, industrial, mechanical, gritty, data-heavy, blueprint, CRT terminal, out-of-the-box | `design-skill/brutalist-skill/SKILL.md` |
-| Premium SaaS, dashboard, polished modern product, motion-rich, spring physics — or no clear signal | `design-skill/taste-skill/SKILL.md` |
+## Vibe Reference — Deep Style Guide
 
-### Vibe Reference — Style Matching Guide
-
-Use this to match the user's vibe, app type, or adjectives to the right style skill. These are not rigid keywords — read the full intent.
+Use this when the quick map above isn't enough. These are not rigid keywords — read the full intent.
 
 **taste-skill** → the confident default for anything modern and polished
 - Apps: SaaS products, startup landing pages, B2B tools, fintech, productivity apps, developer tools
 - Vibes: premium, polished, high-end, modern, sleek, confident, motion-rich, alive, Vercel-like, Linear-like, Stripe-like, Framer-like
 - Energy: controlled motion, spring physics, bento grids, asymmetric layouts, alive without being chaotic
+- User says: "make it look good", "make it premium", "clean and modern", "professional"
 
 **minimalist-skill** → when less is the whole point
 - Apps: note-taking tools, writing apps, documentation sites, blogs, personal sites, calm B2B, legal/finance tools, design tools
 - Vibes: minimal, clean, quiet, editorial, calm, focused, document-like, Notion, Linear, Craft, Readwise, monochrome, typographic, no noise, breathing room, understated luxury
 - Energy: invisible motion, serif headings, 1px borders, warm off-white, motion that never distracts
+- User says: "clean and simple", "Notion-like", "calm", "no clutter", "minimal"
 
 **brutalist-skill** → when conventional is the enemy
 - Apps: portfolios, creative agencies, art projects, music/culture sites, experimental tools, security/hacker products, zines, manifestos
 - Vibes: brutalist, raw, bold, industrial, mechanical, grid-heavy, Swiss design, blueprint, declassified, military, terminal, hacker, punk, no-nonsense, confrontational, retro-tech, out-of-the-box, unconventional, anti-design
 - Energy: massive uppercase type, visible structure, no border-radius, monospace data, CRT scanlines, halftone effects, aviation red accent
+- User says: "hacker aesthetic", "CRT terminal", "military blueprint", "anti-design", "brutalist"
+
+**neobrutalist-web-designer** → when brutalism meets modern SaaS — funky, bold, usable
+- Apps: SaaS dashboards, e-commerce, indie creator platforms, startup landing pages, product tools, portfolios with personality
+- Vibes: neobrutalism, neubrutalism, funky, playful, pop-art, bold, eye-catching, hard shadows, thick outlines, flat color, high contrast, Gumroad-like, Figma-meets-punk, structured chaos
+- Energy: solid flat colors, 4px hard box-shadows, thick black borders, loud typography, no gradients, no soft corners — raw but completely usable
+- User says: "funky", "playful but bold", "like Gumroad", "indie creator vibe", "pop-art", "make it stand out", "neobrutalism", "hard shadows"
+
+**svg-animations** → when the asset itself is the design
+- Use for: animated logos, icon sets, path-drawing effects, shape morphing, illustrated storytelling
+- User says: "animate my logo", "draw the path", "SVG icon animation", "stroke animation"
+
+---
 
 ## Combination Rule
 
-One style skill max per task. But style + ui component reference is always valid:
+One style skill max per task. But **style + ui component** is always valid — load both.
 
-> Example: User wants a brutalist page with a keyboard component → load `brutalist-skill/SKILL.md` AND `ui/references/dev-creative.md`
+| Example request | Load |
+|---|---|
+| Neobrutalist landing page with a marquee | `neobrutalist-web-designer/SKILL.md` + `ui/references/scroll-animation.md` |
+| Minimalist blog with animated text headings | `minimalist-skill/SKILL.md` + `ui/references/text-effects.md` |
+| Brutalist portfolio with terminal component | `brutalist-skill/SKILL.md` + `ui/references/dev-creative.md` |
+| Funky SaaS hero with particle background | `neobrutalist-web-designer/SKILL.md` + `ui/references/backgrounds.md` |
+| Polished SaaS dashboard with bento grid cards | `taste-skill/SKILL.md` + `ui/references/cards.md` |
 
-> Example: User wants an editorial landing page with a marquee → load `minimalist-skill/SKILL.md` AND `ui/references/scroll-animation.md`
+---
 
 ## Default
 
