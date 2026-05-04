@@ -679,9 +679,8 @@ Despite its boldness, neobrutalism can be highly accessible:
 ## References
 
 - `/references/component-library.md` - Full CSS for all neobrutalist components
-- `/references/color-combinations.md` - Tested color pairings with contrast ratios
-- `/references/typography-pairings.md` - Font combinations for different contexts
 - `/references/real-world-examples.md` - Analysis of Gumroad, Figma, and other implementations
+- `/references/design-gallery-sources.md` - Curated gallery of neobrutalist design inspiration and sources
 
 ---
 

@@ -37,7 +37,7 @@ Use this first. Match the user's energy to the right skill — don't over-think 
 | Clean, calm, minimal, editorial, Notion-like, quiet, breathing room | `minimalist-skill` |
 | Sleek, premium, polished, modern SaaS, motion-rich, Vercel/Stripe/Linear-like | `taste-skill` |
 | Animated SVG, icon drawing, path animation, logo animation | `svg-animations` |
-| No clear style signal, just "make it look good" | `taste-skill` (default) |
+| No clear style signal, just "make it look good" | Think first — see "When There Is No Style Signal" below |
 
 ### Detailed Routing Table
 
@@ -114,11 +114,11 @@ One style skill max per task. But **style + ui component** is always valid — l
 
 | Example request | Load |
 |---|---|
-| Neobrutalist landing page with a marquee | `neobrutalist-web-designer/SKILL.md` + `ui/references/scroll-animation.md` |
-| Minimalist blog with animated text headings | `minimalist-skill/SKILL.md` + `ui/references/text-effects.md` |
-| Brutalist portfolio with terminal component | `brutalist-skill/SKILL.md` + `ui/references/dev-creative.md` |
-| Funky SaaS hero with particle background | `neobrutalist-web-designer/SKILL.md` + `ui/references/backgrounds.md` |
-| Polished SaaS dashboard with bento grid cards | `taste-skill/SKILL.md` + `ui/references/cards.md` |
+| Neobrutalist landing page with a marquee | `design-skill/neobrutalist-web-designer/SKILL.md` + `design-skill/ui/references/scroll-animation.md` |
+| Minimalist blog with animated text headings | `design-skill/minimalist-skill/SKILL.md` + `design-skill/ui/references/text-effects.md` |
+| Brutalist portfolio with terminal component | `design-skill/brutalist-skill/SKILL.md` + `design-skill/ui/references/dev-creative.md` |
+| Funky SaaS hero with particle background | `design-skill/neobrutalist-web-designer/SKILL.md` + `design-skill/ui/references/backgrounds.md` |
+| Polished SaaS dashboard with bento grid cards | `design-skill/taste-skill/SKILL.md` + `design-skill/ui/references/cards.md` |
 
 ---
 
