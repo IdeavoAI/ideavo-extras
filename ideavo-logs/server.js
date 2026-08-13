@@ -15,34 +15,24 @@ if (!LOG_PATH || !Number.isSafeInteger(PORT) || PORT <= 0) {
   process.exit(1);
 }
 
-async function getSafeOffset(file, size) {
-  if (size === 0) return 0;
-
-  const text = await file.text();
-  const lastNewline = text.lastIndexOf("\n");
-  return lastNewline === -1 ? 0 : lastNewline + 1;
-}
-
 async function readFromOffset(offset) {
   const file = Bun.file(LOG_PATH);
   if (!(await file.exists())) {
     return { text: "", offset: 0 };
   }
 
-  const size = file.size;
-  const safeOffset = await getSafeOffset(file, size);
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const safeOffset = bytes.lastIndexOf(10) + 1;
 
   if (offset >= safeOffset) {
     return { text: "", offset: safeOffset };
   }
 
-  const raw = await file.slice(offset, safeOffset).text();
-  let start = 0;
+  let start = offset;
 
   if (offset > 0) {
-    const previousByte = await file.slice(offset - 1, offset).text();
-    if (previousByte !== "\n") {
-      const firstNewline = raw.indexOf("\n");
+    if (bytes[offset - 1] !== 10) {
+      const firstNewline = bytes.indexOf(10, offset);
       if (firstNewline === -1) {
         return { text: "", offset };
       }
@@ -51,7 +41,7 @@ async function readFromOffset(offset) {
   }
 
   return {
-    text: raw.slice(start),
+    text: new TextDecoder().decode(bytes.slice(start, safeOffset)),
     offset: safeOffset
   };
 }
