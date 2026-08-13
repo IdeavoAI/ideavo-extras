@@ -25,6 +25,10 @@ async function getSafeOffset(file, size) {
 
 async function readFromOffset(offset) {
   const file = Bun.file(LOG_PATH);
+  if (!(await file.exists())) {
+    return { text: "", offset: 0 };
+  }
+
   const size = file.size;
   const safeOffset = await getSafeOffset(file, size);
 
