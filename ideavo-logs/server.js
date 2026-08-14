@@ -9,6 +9,10 @@ function getArg(name) {
 
 const LOG_PATH = getArg("--file");
 const PORT = Number(getArg("--port"));
+const ALLOWED_ORIGINS = new Set([
+  "http://localhost:8081",
+  "https://ideavo.ai"
+]);
 
 if (!LOG_PATH || !Number.isSafeInteger(PORT) || PORT <= 0) {
   console.error("Usage: bun server.js --file <logs.ndjsonl> --port <port>");
@@ -46,14 +50,20 @@ async function readFromOffset(offset) {
   };
 }
 
-function response(body, init = {}) {
+function response(body, init = {}, request) {
+  const origin = request?.headers.get("origin");
+  const corsHeaders = ALLOWED_ORIGINS.has(origin)
+    ? { "Access-Control-Allow-Origin": origin }
+    : {};
+
   return new Response(body, {
     ...init,
     headers: {
-      "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Expose-Headers": "X-Next-Offset",
+      Vary: "Origin",
+      ...corsHeaders,
       ...init.headers
     }
   });
@@ -70,7 +80,7 @@ async function logResponse(request, body, headers = {}) {
         "Content-Type": "application/x-ndjson",
         ...headers
       }
-    });
+    }, request);
   }
 
   const compressed = Bun.gzipSync(Buffer.from(body));
@@ -81,16 +91,17 @@ async function logResponse(request, body, headers = {}) {
       "Content-Encoding": "gzip",
       ...headers
     }
-  });
+  }, request);
 }
 
 Bun.serve({
+  hostname: "127.0.0.1",
   port: PORT,
   async fetch(request) {
     const url = new URL(request.url);
 
     if (request.method === "OPTIONS") {
-      return response(null, { status: 204 });
+      return response(null, { status: 204 }, request);
     }
 
     if (url.pathname === "/health") {
@@ -101,7 +112,8 @@ Bun.serve({
           port: PORT,
           endpoints: ["GET /", "GET /?offset=0", "GET /health"]
         }),
-        { headers: { "Content-Type": "application/json" } }
+        { headers: { "Content-Type": "application/json" } },
+        request
       );
     }
 
@@ -115,7 +127,8 @@ Bun.serve({
           {
             status: 400,
             headers: { "Content-Type": "application/json" }
-          }
+          },
+          request
         );
       }
 
@@ -128,7 +141,7 @@ Bun.serve({
     return response(JSON.stringify({ success: false, error: "Not found" }), {
       status: 404,
       headers: { "Content-Type": "application/json" }
-    });
+    }, request);
   }
 });
 
