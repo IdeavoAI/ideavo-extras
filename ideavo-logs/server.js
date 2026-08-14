@@ -53,6 +53,7 @@ function response(body, init = {}) {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Expose-Headers": "X-Next-Offset",
       ...init.headers
     }
   });
