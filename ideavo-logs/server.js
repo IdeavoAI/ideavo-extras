@@ -36,15 +36,31 @@ async function readFromOffset(offset) {
   }
 
   const bytes = new Uint8Array(await file.slice(offset, size).arrayBuffer());
-  const safeLength = bytes.lastIndexOf(10) + 1;
+  const previousByte =
+    offset === 0
+      ? 10
+      : new Uint8Array(await file.slice(offset - 1, offset).arrayBuffer())[0];
+  const startsAtBoundary = offset === 0 || previousByte === 10;
+  let start = 0;
 
-  if (safeLength === 0) {
-    return { text: "", offset };
+  if (!startsAtBoundary) {
+    const firstNewline = bytes.indexOf(10);
+    if (firstNewline === -1) {
+      return { text: "", offset };
+    }
+
+    start = firstNewline + 1;
+  }
+
+  const safeEnd = bytes.lastIndexOf(10) + 1;
+
+  if (safeEnd <= start) {
+    return { text: "", offset: offset + start };
   }
 
   return {
-    text: new TextDecoder().decode(bytes.slice(0, safeLength)),
-    offset: offset + safeLength
+    text: new TextDecoder().decode(bytes.slice(start, safeEnd)),
+    offset: offset + safeEnd
   };
 }
 
