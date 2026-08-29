@@ -24,6 +24,33 @@
         "references/drizzle-pitfalls.md",
         "references/ui.md"
       ]
+    },
+  
+    {
+      "name": "design-skill",
+      "description": "Design orchestrator. Load this whenever the task involves UI design, building frontend, choosing a visual style, adding animations, or picking/using UI library components (Magic UI, Aceternity UI). Routes to the right sub-skill — taste, minimalist, brutalist, neobrutalist, svg-animations, or specific ui component references.",
+      "files": [
+        "SKILL.md",
+        "taste-skill/SKILL.md",
+        "minimalist-skill/SKILL.md",
+        "brutalist-skill/SKILL.md",
+        "neobrutalist-web-designer/SKILL.md",
+        "neobrutalist-web-designer/references/component-library.md",
+        "neobrutalist-web-designer/references/real-world-examples.md",
+        "neobrutalist-web-designer/references/design-gallery-sources.md",
+        "svg-animations/SKILL.md",
+        "ui/SKILL.md",
+        "ui/references/text-effects.md",
+        "ui/references/buttons-cta.md",
+        "ui/references/cards.md",
+        "ui/references/backgrounds.md",
+        "ui/references/scroll-animation.md",
+        "ui/references/navigation.md",
+        "ui/references/media-display.md",
+        "ui/references/loaders-utility.md",
+        "ui/references/dev-creative.md",
+        "ui/references/recipes.md"
+      ]
     }
   ]
 }
