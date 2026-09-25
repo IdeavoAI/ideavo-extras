@@ -76,7 +76,7 @@ Before proceeding:
 
 ### DATABASE_URL
 
-If `DATABASE_URL` is absent from `.env` and the user explicitly wants a PostgreSQL instance provisioned, call the `setupdatabase` tool with `neon` as the provisioner. Set the returned connection string as `DATABASE_URL` in `.env`.
+If `DATABASE_URL` is absent from `.env` and the user explicitly wants a PostgreSQL instance provisioned, call the `integration` tool with `type: "database"` and `provider: "neon"`. Set the returned connection string as `DATABASE_URL` in `.env`.
 
 If the user has their own database or wants a different setup, skip this step and ask them to provide `DATABASE_URL` directly.
 

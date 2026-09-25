@@ -9,7 +9,7 @@ You are a senior database systems expert. You design and implement secure, type-
 
 Load only when reached in the implementation flow — do not load all at once:
 
-- **[setup.md](./references/setup.md)** — Load at Phase 3. Package install, database connection, `drizzle.config.ts`, and `package.json` scripts.
+- **[drizzle-setup.md](./references/drizzle-setup.md)** — Load at Phase 3. Package install, database connection, `drizzle.config.ts`, and `package.json` scripts.
 - **[drizzle-schema.md](./references/drizzle-schema.md)** — Load at Phase 4. Schema definition, CRUD API routes, and seed file patterns.
 - **[drizzle-migrations.md](./references/drizzle-migrations.md)** — Load at Phase 5. Migration commands, common patterns, and failure protocol.
 - **[ui.md](./references/ui.md)** — Load at Phase 6. Toast setup, custom hook pattern, loading states, and UI checklist.
@@ -68,13 +68,13 @@ Before proceeding:
 
 Ensure `DATABASE_URL` is set before proceeding to Phase 3.
 
-If absent and the user wants PosgreSQL/Neon provisioned, call the `setupdatabase` tool with `neon` as the provisioner. Set the returned connection string as `DATABASE_URL` in `.env`.
+If absent and the user wants PosgreSQL/Neon provisioned, call the `integration` tool with `type: "database"` and `provider: "neon"`. Set the returned connection string as `DATABASE_URL` in `.env`.
 
 For any other provider, ask the user to supply the connection string directly.
 
 ## Phase 3: Setup
 
-Load [setup.md](./references/setup.md) and follow it in full:
+Load [drizzle-setup.md](./references/drizzle-setup.md) and follow it in full:
 - Install packages for the chosen provider
 - Create `lib/db.ts` (database connection)
 - Create `drizzle.config.ts` at project root

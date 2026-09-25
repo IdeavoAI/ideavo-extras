@@ -2,7 +2,7 @@
 
 Schema definition and seed file patterns.
 
-- Setup (install, connection, config, scripts) — see [setup.md](./setup.md)
+- Setup (install, connection, config, scripts) — see [drizzle-setup.md](./drizzle-setup.md)
 - Migrations — see [drizzle-migrations.md](./drizzle-migrations.md)
 - API routes & custom hooks — see [ui.md](./ui.md)
 
@@ -10,7 +10,7 @@ Schema definition and seed file patterns.
 
 ## Implementation Order
 
-1. Setup — see [setup.md](./setup.md)
+1. Setup — see [drizzle-setup.md](./drizzle-setup.md)
 2. Schema — define tables in `lib/schema.ts` (below)
 3. Migrations — see [drizzle-migrations.md](./drizzle-migrations.md)
 4. API routes & hooks — see [ui.md](./ui.md)
