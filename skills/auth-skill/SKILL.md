@@ -96,7 +96,7 @@ If OAuth is required, use the `question` tool to ask the user to provide provide
 
 - If using **Better Auth**: load [betterauth.md](./references/betterauth.md) to retrieve current API patterns before writing auth configuration.
 - If using **Drizzle**: load [drizzle.md](./references/drizzle.md) for schema and migration patterns.
-- If email sending is required (verification, password reset, magic links): load [email.md](./references/email.md) and use the relevant section — **Email Verification** or **Password Reset**. If `RESEND_API_KEY` is not present in `.env`, use the `askquestion` tool to collect it before implementing.
+- If email sending is required (verification, password reset, magic links): load [email.md](./references/email.md) and use the relevant section — **Email Verification** or **Password Reset**. If `RESEND_API_KEY` is not present in `.env`, use the `question` tool to collect it before implementing.
 - If organizations/teams are required: load [organization.md](./references/organization.md) for `AuthUIProvider` org config, `OrganizationSwitcher`, `OrganizationSettingsCards`, `OrganizationMembersCard`, and `AcceptInvitationCard` patterns.
 - If account/security/settings cards are explicitly requested: load [settings.md](./references/settings.md) for `AccountSettingsCards`, `SecuritySettingsCards`, individual cards (avatar, password, sessions, 2FA, passkeys, API keys, etc.), and custom field patterns.
 - For other providers, use their official documentation patterns directly.

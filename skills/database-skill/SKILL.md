@@ -13,6 +13,7 @@ Load only when reached in the implementation flow — do not load all at once:
 - **[drizzle-schema.md](./references/drizzle-schema.md)** — Load at Phase 4. Schema definition, CRUD API routes, and seed file patterns.
 - **[drizzle-migrations.md](./references/drizzle-migrations.md)** — Load at Phase 5. Migration commands, common patterns, and failure protocol.
 - **[ui.md](./references/ui.md)** — Load at Phase 6. Toast setup, custom hook pattern, loading states, and UI checklist.
+- **[payments-schema.md](./references/payments-schema.md)** — Load at Phase 4 only when the task involves payment tables (orders, subscriptions, payments). Provider-independent tables, money in micros, constraints.
 - **[drizzle-pitfalls.md](./references/drizzle-pitfalls.md)** — Load at Phase 7. Schema mistakes, migration rules, environment checks, and post-implementation checklist.
 
 ## Phase 1: Scan & Plan (Required Before Any Code)
@@ -99,6 +100,7 @@ Load [drizzle-schema.md](./references/drizzle-schema.md) and implement:
 - Every API endpoint must have a corresponding UI action.
 - Add loading states for all data-fetching operations.
 - Never use mock data, localStorage, or in-memory arrays where a database is now available.
+- For payment tables, follow [payments-schema.md](./references/payments-schema.md).
 
 ## Phase 5: Migrations
 

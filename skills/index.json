@@ -22,7 +22,22 @@
         "references/drizzle-schema.md",
         "references/drizzle-migrations.md",
         "references/drizzle-pitfalls.md",
-        "references/ui.md"
+        "references/ui.md",
+        "references/payments-schema.md"
+      ]
+    },
+    {
+      "name": "payments-skill",
+      "description": "Payments setup and implementation skill",
+      "files": [
+        "SKILL.md",
+        "references/entitlements.md",
+        "references/razorpay.md",
+        "references/razorpay/setup.md",
+        "references/razorpay/orders.md",
+        "references/razorpay/subscriptions.md",
+        "references/razorpay/webhooks.md",
+        "references/razorpay/web.md"
       ]
     }
   ]
