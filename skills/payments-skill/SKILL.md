@@ -19,7 +19,7 @@ In one parallel batch, and nothing more unless something is unclear: the package
 Stop and tell the user when:
 
 - **There's no server-side code** (API routes, server actions or a backend). Credentials can't be kept safe in the browser. Ask whether they want a server added first, and don't continue with payments until it exists.
-- **There's no database.** Ask: set one up with `database-skill`, or use their own. Continue once it's connected.
+- **There's no database or ORM.** Ask: set one up, or use their own connection string. Either way, invoke `database-skill` and follow it in full; it sets up the ORM and migrations. Continue only once migrations run.
 
 ## 2. Ask once
 
@@ -35,7 +35,7 @@ One `question` call with everything the scan didn't settle:
 
 ## 3. Build
 
-In one batch, read the provider's entry file and `references/payments-schema.md` in `database-skill`'s folder, next to its `SKILL.md` (read only that file; don't invoke `database-skill`), and get the credentials as the entry file says. For Other, ask the user for credentials by the exact environment variable names the provider documents.
+In one batch, read the provider's entry file and `references/payments-schema.md` in `database-skill`'s folder, next to its `SKILL.md` (read only that file; `database-skill` has already run or the project has its own ORM), and get the credentials as the entry file says. For Other, ask the user for credentials by the exact environment variable names the provider documents.
 
 Then build the tables, the payment flow, the access checks and the billing page, following these rules:
 

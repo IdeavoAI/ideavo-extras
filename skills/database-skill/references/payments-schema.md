@@ -1,6 +1,6 @@
 # Payments schema
 
-Tables for payments, for any provider. Use the project's ORM, migrations and naming style, and extend existing tables that already hold this data.
+Tables for payments, for any provider. Use the project's ORM, migrations and naming style (Drizzle, as `database-skill` sets it up, if the project had none), and extend existing tables that already hold this data. Never write raw SQL around the ORM.
 
 ## Rules
 
