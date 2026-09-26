@@ -17,12 +17,14 @@ Load `https://checkout.razorpay.com/v1/checkout.js` with a real script tag, or t
      name, description,
      prefill: { name, email, contact },
      handler: (response) => confirm(response),
-     modal: { ondismiss: () => { /* back to idle */ } },
+     modal: { ondismiss: () => { /* back to the Buy button, no spinner */ } },
    })
-   rzp.on("payment.failed", (response) => { /* show response.error.description, allow retry */ })
+   rzp.on("payment.failed", (response) => { /* Checkout shows the error and lets the buyer retry */ })
    rzp.open()
    ```
-3. In `handler`, send the IDs to the server's confirm route (`razorpay_payment_id` with `razorpay_order_id`, or `razorpay_subscription_id`). Show a pending state until the server answers. Access comes from the server's answer, never from the handler alone.
+3. In `handler`, send the IDs to the server's confirm route (`razorpay_payment_id` with `razorpay_order_id`, or `razorpay_subscription_id`). Access comes from the server's answer, never from the handler alone.
+
+Show a spinner only between `handler` firing and the server's answer. If the buyer closes Checkout without paying, return straight to the Buy button: nothing was paid, and nothing is pending. A failed attempt is recorded by the server; the same order can still be paid, so buying again may reuse it.
 
 Use `handler`, not `callback_url`. Razorpay's `callback_url` is for WebView and redirect flows, and it needs an allowlisted domain.
 

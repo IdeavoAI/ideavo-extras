@@ -2,14 +2,10 @@
 
 Razorpay is for Indian businesses and charges in **INR only**. Razorpay's API takes integers in paise (₹1 = 100 paise). The app stores micros, so convert with paise = micros / 10,000 when calling Razorpay, and back with micros = paise × 10,000.
 
-Read each file below in full when its part of the build is reached.
 
 ## Questions
 
-Ask these together with the general requirements in step 4:
-
-- One-time payment or subscription?
-- For a subscription: billing period (daily, weekly, monthly or yearly), how many periods between charges, how many billing cycles in total, and whether it starts with a free trial.
+No questions beyond the general ones. For subscriptions, the billing period must be `daily`, `weekly`, `monthly` or `yearly`, and Razorpay needs the total number of billing cycles.
 
 ## Schema
 
@@ -26,13 +22,10 @@ If the project already has payment tables, check they can hold these fields with
 
 ## Files
 
-| File | Load when |
-|---|---|
-| [setup.md](./razorpay/setup.md) | First, before any code: credentials, test vs live mode, and how to call the API. |
-| [orders.md](./razorpay/orders.md) | For one-time payments: creating orders, verifying payments, rechecking pending orders. |
-| [subscriptions.md](./razorpay/subscriptions.md) | For subscriptions only: plans, subscriptions and their lifecycle. |
-| [webhooks.md](./razorpay/webhooks.md) | After the payment flow works: registering the webhook, the handler and its events. |
-| [web.md](./razorpay/web.md) | When building the checkout in the browser, and for test payment methods. |
+Read all the files for the chosen flow in one batch:
+
+- **One-time:** [setup.md](./razorpay/setup.md), [orders.md](./razorpay/orders.md), [web.md](./razorpay/web.md), [webhooks.md](./razorpay/webhooks.md).
+- **Subscription:** the same, plus [subscriptions.md](./razorpay/subscriptions.md).
 
 ## Handoff
 

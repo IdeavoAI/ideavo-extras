@@ -21,14 +21,15 @@ Events can arrive out of order. Apply a status only if it moves the record forwa
 
 ## Register the webhook
 
-The merchant registers the webhook in their Razorpay Dashboard; Razorpay's API doesn't allow it with our access token. The app works without it (in-app confirmation and rechecks keep payments correct), so register it where the URL is stable.
+Always build the handler. Register the webhook only for the deployed app, because a sandbox URL changes and Razorpay disables a webhook after 24 hours of failed deliveries.
 
-- **Production:** once the user shares the deployed URL, ask them to add a webhook under Accounts & Settings, then Webhooks, in the mode the connection uses. Give them the URL (deployed URL plus the handler path) and the events from the table above, and ask them to set a secret. Use the `question` tool to collect the secret, and write it to `.env` as `RAZORPAY_WEBHOOK_SECRET`.
-- **Sandbox (only if the user wants to test webhooks now):** the same steps with `$IDEAVO_HOST_URL` plus the handler path. Replace the leading `4000` if the handler runs on another port. Tell the user this URL stops working when the sandbox is replaced, and that Razorpay disables a webhook after 24 hours of failed deliveries, so they should update or remove it afterwards.
+The merchant registers it in their Razorpay Dashboard; Razorpay's API doesn't allow it with our access token. In the final reply, ask them to add a webhook under Accounts & Settings, then Webhooks, once the app is deployed: the deployed URL plus the handler path, the events from the table above, and a secret of their choice, which they set as `RAZORPAY_WEBHOOK_SECRET` in production.
+
+The app stays correct without it: confirmation, rechecks and subscription syncing keep payments up to date. Only guests who close the tab after paying wait for the webhook.
 
 ## Test
 
-If a webhook is registered, make a test payment (see [web.md](./web.md)), then check that the handler received `order.paid` and that a repeated delivery changes nothing.
+Once a webhook is registered, make a test payment (see [web.md](./web.md)), then check that the handler received `order.paid` and that a repeated delivery changes nothing.
 
 ## Docs
 

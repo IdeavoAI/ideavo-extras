@@ -14,57 +14,68 @@ Payments move real money and rely on credentials that control the merchant's acc
 | Razorpay | India only | Web | [razorpay.md](./references/razorpay.md) |
 | Other | Any | Any | No reference. Follow the provider's official documentation. |
 
-Load the provider's entry file at step 4. It lists that provider's questions and which of its files to load for each part of the build.
-
-## Public URL
-
-In the sandbox, the app is reachable from the internet at `$IDEAVO_HOST_URL` (read it from the shell). It points at port 4000. For a server on another port, replace the leading `4000`. Use it only when registering the app with something outside it, such as a provider webhook. Never write it into the app's code; the URL changes when the sandbox is replaced.
+A provider's entry file lists its questions and which of its files each flow needs.
 
 ## Workflow
 
+Work in few, batched steps. Make independent tool calls in parallel, and don't reread files you've already read.
+
 ### 1. Scan
 
-Read the project without changing anything or asking questions yet. Note:
+Read these in one parallel batch, and nothing more unless something is unclear:
 
-- Stack and platform (web, mobile, both), and where server code runs.
-- Database and schema, and whether authentication exists.
-- Existing payment code or payment environment variables.
-- Products, plans, pricing pages or features that could be paid.
-- Hardcoded origins such as `localhost:<port>`, and whether the dev server accepts requests from its public host.
+- The package manifest and framework config: stack, platform, where server code runs.
+- ORM config and schema files, and whether `.env` has `DATABASE_URL` (check the name only).
+- The auth setup, if any.
+- Existing payment code: search the source (excluding dependencies and build output) for `razorpay`, `stripe`, `checkout` and payment environment variable names.
+- Pricing pages, plans or premium features.
+- Hardcoded origins: search the source for `localhost:`.
 
-### 2. Choose the provider
-
-- If the user named a provider, or the project already has one integrated, use it.
-- Otherwise use the `question` tool with two options: **Razorpay (Recommended, India only)** and **Other**.
-
-### 3. Readiness report
-
-Show the user a short table with each check, what you found (with file paths) and the result. Then act on the result.
+### 2. Readiness
 
 | Check | Passes when | Otherwise |
 |---|---|---|
 | Server-side code | Code runs on a server (API routes, server actions, a backend). Credentials can't be kept safe in the browser. | Stop and explain why payments can't be added. |
-| Existing payment code | None, or it's for the chosen provider and can be extended. | Use the `question` tool: extend it, or replace it. Never build a second integration next to it. |
-| Database | The server can write to a database through an ORM or query layer. Payment state must be durable. | Stop. Use the `question` tool: set one up with `database-skill` (run it in full), or the user provides their own. Continue only once the database is connected and migrations run. |
-| Something to charge for | There's a clear product or service. | Use the `question` tool: summarise what you found and suggest one or two options that fit the project. |
-| Identity | The purchase isn't tied to an account, or authentication exists. | Use the `question` tool: set it up with `auth-skill`, or make it a guest purchase that records the buyer's email or phone. |
-| Platform | The provider's row in the table covers the project's platform. | Stop and tell the user the platform isn't supported for this provider yet. |
-| URLs | No hardcoded origins, and the dev server accepts its public host. | Fix it before building. The app runs behind a public URL that changes between sandboxes. |
+| Database | The server can write to a database through an ORM or query layer. Payment state must be durable. | Ask in step 3: set one up with `database-skill` (run it in full) or use the user's own. Continue only once it's connected and migrations run. |
+| Existing payment code | None, or it's for the chosen provider and can be extended. | Ask in step 3: extend it or replace it. Never build a second integration next to it. |
+| Something to charge for | There's a clear product or service. | Ask in step 3, suggesting one or two options that fit the project. |
+| Identity | The purchase isn't tied to an account, or authentication exists. | Ask in step 3: set it up with `auth-skill`, or make it a guest purchase that records the buyer's email or phone. |
+| Platform | The provider's row in the table covers the project's platform. | Stop and say the platform isn't supported for this provider yet. |
+| URLs | No hardcoded origins, and the dev server accepts its public host. | Fix it while building. The app runs behind a public URL that changes between sandboxes. |
 
-### 4. Requirements
+If every check passes, say so in one line. Otherwise list only the failing checks, with what you found.
 
-Use the `question` tool to confirm what is sold, the price, the currency, and one-time or recurring. For recurring, also ask whether cancelling ends access immediately or at the end of the paid period. Ask the provider-specific questions its entry file lists, in the same call where possible.
+### 3. Ask once
 
-Finalise the currency before building. It must be one the provider supports, as its entry file states. If it isn't, stop and let the user choose: change the currency or choose another provider. Never convert prices on your own.
+Make a single `question` call with everything still open:
 
-### 5. Build with the provider
+- The provider, unless the user named one or the project already has one: **Razorpay (Recommended, India only)** or **Other**.
+- What is sold and its price, suggesting what the scan found.
+- One-time or recurring. For recurring: billing period, total billing cycles, a free trial, and whether cancelling ends access immediately or at the end of the paid period.
+- Any question a failing readiness check needs.
 
-First add the payment tables. Read `references/payments-schema.md` in `database-skill`'s folder, next to its `SKILL.md`, and create the tables it describes with the project's ORM and migration setup. Read only that file; don't invoke `database-skill` again.
+Finalise the currency: it must be one the provider supports, as its entry file states. If it isn't, ask the user to change the currency or choose another provider. Never convert prices on your own.
 
-- **Razorpay:** follow [razorpay.md](./references/razorpay.md): credentials, orders, verification, subscriptions, webhooks, testing and handoff.
-- **Other:** ask the user for the credentials by the exact environment variable names the provider documents, then write them to `.env`. Build from the provider's official documentation.
+### 4. Load
 
-Either way, read [entitlements.md](./references/entitlements.md) before building paid features, access checks or the billing page, and meet every outcome below.
+In one parallel batch:
+
+- For Razorpay: call the `integration` tool (see [razorpay.md](./references/razorpay.md) and its `setup.md`) and read `razorpay.md`, every Razorpay file the chosen flow needs, [entitlements.md](./references/entitlements.md), and `references/payments-schema.md` in `database-skill`'s folder, next to its `SKILL.md`. Read only that schema file; don't invoke `database-skill`.
+- For Other: ask the user for the credentials by the exact environment variable names the provider documents, and read `entitlements.md` and `payments-schema.md` the same way.
+
+If the provider isn't connected, stop as `setup.md` says.
+
+### 5. Build
+
+Create the payment tables and run the migration, then build the provider flow, gating and the billing page. Work straight from what you've read, without narrating the structure.
+
+### 6. Verify once
+
+At the end, run the project's type check and build once, and fix what fails. Check the required outcomes below against the code. Leave the checks that need a real payment to the user.
+
+### 7. Finish
+
+Reply in at most five lines: what was built, the environment variables to set in production (names only; the user sets them, don't change production settings yourself), the webhook to register once the app is deployed (see the provider's webhook file), and what the user should test.
 
 ## Product catalog
 
@@ -93,9 +104,9 @@ These hold for every provider and stack. Check each one before telling the user 
 - **Secrets stay on the server.** `.env` is gitignored before any secret is written, secrets are referred to by name only, and their values are never printed.
 - **No hardcoded origins.** Use relative paths in the client, and the request's forwarded host on the server.
 - **Async work is awaited** before responding, because serverless platforms stop the function once the response is sent.
-- **Buyers can see what they paid,** and subscribers can cancel, on a billing page limited to their own records (see [entitlements.md](./references/entitlements.md)). Cancelling calls the provider first, then updates the database from its response; access ends at the timing chosen in step 4.
+- **Buyers can see what they paid,** and subscribers can cancel, on a billing page limited to their own records (see [entitlements.md](./references/entitlements.md)). Cancelling calls the provider first, then updates the database from its response; access ends at the timing chosen in step 3.
 
-Run these checks in test mode:
+Checks for the user to run in test mode:
 
 - A test payment completes and grants access.
 - An amount changed in the client is rejected.
@@ -104,7 +115,3 @@ Run these checks in test mode:
 - The billing page shows the test purchase, and a buyer can't see anyone else's.
 - After paying, the pricing page shows the product as purchased, and buying it again is rejected unless it's repeatable.
 - Cancelling a test subscription cancels it with the provider and in the database, and access ends at the chosen time.
-
-## Handoff
-
-Tell the user which environment variables they must set in production, by name only. The user sets them; don't change production settings yourself.

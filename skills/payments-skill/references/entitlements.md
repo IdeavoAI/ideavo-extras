@@ -4,7 +4,7 @@ What a user owns decides what they can use and what they see. Build it with the 
 
 ## Entitlements
 
-One server function, for example `getEntitlements(user)`, returns the one-time products the user owns, their subscription (product, status, `current_end`, cancelling at period end) and any pending payment. Everything below uses it, so access and UI never disagree.
+One server function, for example `getEntitlements(user)`, returns the one-time products the user owns, their subscription (product, status, `current_end`, cancelling at period end) and any pending payment. Pending means the provider holds a payment for the order that isn't final yet (Razorpay: `authorized`); an order without a payment attempt is not pending. Everything below uses it, so access and UI never disagree.
 
 When buying, the server rejects a one-time product the user already owns (unless `repeatable`), and a second active subscription to the same product.
 
@@ -27,7 +27,7 @@ Before building, list every place that serves paid content: API routes, server a
 
 ## Billing page
 
-In the existing profile or settings area, or a `/billing` page linked from the user menu. It shows only the signed-in user's data. On load, recheck their pending orders with the provider first.
+In the existing profile or settings area, or a `/billing` page linked from the user menu. It shows only the signed-in user's data. On load, recheck their unpaid orders from the last 3 days and sync their subscription with the provider first. Abandoned orders with no payment don't appear; failed attempts appear as failed.
 
 1. **Subscription:** product, amount and period, and a status line: "Next charge on <date>", "Cancels on <date>", "Payment failed. Retrying automatically." or "Ended on <date>" with a link to subscribe again. Cancel asks for confirmation and says when access ends.
 2. **Purchases:** owned one-time products with their purchase date.

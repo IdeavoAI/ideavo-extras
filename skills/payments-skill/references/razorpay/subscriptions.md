@@ -40,14 +40,14 @@ A server route that receives `razorpay_subscription_id` from Checkout's handler.
 | `pending` (a charge failed; Razorpay is retrying) | Yes, while Razorpay retries |
 | `halted`, `cancelled`, `completed`, `expired` | No (for a cancellation at period end, until `current_end`) |
 
-Webhooks keep the status current; see [webhooks.md](./webhooks.md).
+Webhooks keep the status current (see [webhooks.md](./webhooks.md)). Don't rely on them alone: when an access check or the billing page finds a subscription past `current_end`, or in `created` or `pending`, fetch it (`GET /v1/subscriptions/{id}`) first, store its `status` and `current_end`, and record any new charges.
 
 ## Cancel
 
 A server route for the billing page's cancel action.
 
 1. Check the subscription belongs to the current buyer.
-2. `POST /v1/subscriptions/{id}/cancel` with `cancel_at_cycle_end: true` to end at the paid period's end, or `false` to end now, as the user chose in step 4.
+2. `POST /v1/subscriptions/{id}/cancel` with `cancel_at_cycle_end: true` to end at the paid period's end, or `false` to end now, as the user chose in step 3.
 3. Update the local row from the response: its `status`, and `cancel_at_period_end` when it ends later. The billing page then shows when access ends.
 4. The `subscription.cancelled` webhook confirms it later, idempotently.
 

@@ -31,7 +31,7 @@ A failed attempt doesn't fail the order; the buyer can pay the same order again.
 
 ## Recheck pending orders
 
-For an order still `created`, `GET /v1/orders/{provider_order_id}/payments` and apply the same checks to any `captured` payment. Run it when the buyer returns to the app or opens the billing page, so a closed tab never loses a payment.
+For an order still `created` and less than 3 days old, `GET /v1/orders/{provider_order_id}/payments` and apply the same checks to any `captured` payment. Run it when the buyer opens the billing page, so a closed tab never loses a payment. Three days matches Razorpay's capture window; after it, uncaptured payments are refunded automatically.
 
 ## Docs
 
