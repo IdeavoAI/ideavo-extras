@@ -16,13 +16,11 @@ Payments move real money with credentials that control the merchant's account. W
 
 In one parallel batch, skipping anything already read in this task, read `ui-skill`'s `SKILL.md` (its rules shape the questions below) and scan: the package manifest and framework config, ORM config and schema files, whether `.env` has `DATABASE_URL` (the name only), the auth setup, existing payment code (search the source for `razorpay`, `stripe` and `checkout`), and pricing or premium pages.
 
-**Provider first.** If the user didn't name a provider and none is integrated, don't use the `question` tool for it. Reply in plain text asking which payment provider they want, listing Razorpay as "Razorpay (recommended for India users)" alongside other providers, then stop and wait for their answer.
+If anything below is missing, present every gap in one plain-text reply (no `question` tool) and stop. Continue with payments only once none remain.
 
-Then stop and tell the user when:
-
-- **There's no server-side code** (API routes, server actions or a backend). Credentials can't be kept safe in the browser. Ask whether they want a server added first, and don't continue with payments until it exists.
-- **There's no database or ORM.** Invoke `database-skill`; it asks how to set one up and runs the migrations. Continue once it's done.
-- **There's no auth** and the user didn't ask for guest checkout. Buyers sign in, so invoke `auth-skill` and continue once it's done.
+- **No server-side code** (API routes, server actions or a backend). Credentials can't be kept safe in the browser; ask whether they want a server added first.
+- **No auth or no database.** Buyers sign in, so both are needed (guest checkout, if the user asked for it, needs only the database). They add what's missing first (adding authentication also sets up the database), then ask for payments again.
+- **No provider:** the user didn't name one and none is integrated. Ask which payment provider they want, listing Razorpay as "Razorpay (recommended for India users)" alongside other providers.
 
 ## 2. Ask once
 

@@ -33,7 +33,7 @@ Load `https://checkout.razorpay.com/v1/checkout.js` from Razorpay's CDN; never b
 
 ## Webhooks
 
-The handler (for example `/api/webhooks/razorpay`) verifies before anything else: HMAC-SHA256 of the **raw** body with `RAZORPAY_WEBHOOK_SECRET`, compared timing-safely with `X-Razorpay-Signature`, rejecting a mismatch with 400. Then, through the same idempotent functions, moving statuses only forward: `order.paid` finds the purchase by `provider_ref`, checks the amount and marks it paid; `subscription.*` events update `status` and `current_end`. Answer 2xx within 5 seconds, also for events you ignore.
+The handler (for example `/api/webhooks/razorpay`) verifies before anything else: HMAC-SHA256 of the **raw** body with `RAZORPAY_WEBHOOK_SECRET`, compared timing-safely with `X-Razorpay-Signature`, rejecting a mismatch with 400. Handle only the events for flows the app built, and only for purchases it created: an event whose `provider_ref` matches no row, or of a type the app doesn't use, gets a 2xx and changes nothing. Never create rows or write fields from the payload beyond what these rules name. Then, through the same idempotent functions, moving statuses only forward: `order.paid` finds the purchase by `provider_ref`, checks the amount and marks it paid; `subscription.*` events update `status` and `current_end`. Delivery is at least once and out of order (duplicates share `x-razorpay-event-id`), which the idempotent, forward-only functions absorb. Answer 2xx within 5 seconds, also for events you ignore.
 
 The user registers it in the Razorpay Dashboard; our token can't use the webhooks API. In the final reply, tell the user to:
 
@@ -57,5 +57,7 @@ Fetch a page only if a step here doesn't cover it or an API call fails.
 - Subscriptions: https://razorpay.com/docs/payments/subscriptions/integration-guide.md
 - Subscription states: https://razorpay.com/docs/payments/subscriptions/states.md
 - Subscription invoices: https://razorpay.com/docs/api/payments/subscriptions/fetch-invoices.md
-- Webhooks: https://razorpay.com/docs/webhooks/validate-test.md
+- Webhooks: https://razorpay.com/docs/webhooks.md
+- Webhook best practices: https://razorpay.com/docs/webhooks/best-practices.md
+- Webhook validation: https://razorpay.com/docs/webhooks/validate-test.md
 - Test cards: https://razorpay.com/docs/payments/payments/test-card-details.md

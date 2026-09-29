@@ -7,10 +7,6 @@ description: Adds authentication with Better Auth on the project's PostgreSQL da
 
 Native: Better Auth with Drizzle on PostgreSQL. If the user asks for another library (Clerk, Auth.js, Supabase Auth), use it and follow its official documentation. If the project already has one, ask whether to keep it or migrate to Better Auth; never run two. If Better Auth is already set up, extend its config, schema and pages instead of recreating them.
 
-## When another skill invokes this one
-
-Set up email and password sign-in with the sign-in and sign-up pages and the header auth state. Reuse the scan already done, and skip the final checks. If the app already has data tables, still ask the sign-in and per-user questions and secure the app as chosen.
-
 ## 1. Scan
 
 In one parallel batch, skipping anything already read in this task, read `ui-skill`'s `SKILL.md` (its rules shape the questions below) and scan: the package manifest, the framework and router, `tsconfig` paths, existing auth code, the ORM config and schema, whether `.env` has `DATABASE_URL`, `BETTER_AUTH_SECRET` and `BETTER_AUTH_URL` (names only), the UI library, the existing layout and header, the data tables, and every page, route or server action that reads or writes them.
@@ -25,7 +21,7 @@ Ask everything still open in a single `question` call, as separate questions (th
 - Features (multiple allowed): email verification, password reset, two-factor authentication, organizations or teams, admin, API keys.
 - Email provider, if a feature sends email: **Resend (Recommended)** or log emails to the console for now.
 - **Sign-in page layout:** centred card (Recommended) or split with a brand panel.
-- **Where the account menu (profile, settings, sign-out) goes:** the places the scan found, such as the header or the sidebar, with the detected one recommended. If no place is clear, ask without recommending.
+- **Where the account menu (profile, settings, sign-out) goes:** only containers the app already has (header, navbar or sidebar), with the detected one recommended. Never place it anywhere else or add a second header; if the app has none, offer adding a header in the app's style.
 - **Which pages require sign-in.** List the pages found and let the user pick; pages that show or change data are the recommended defaults.
 - **Whether existing data becomes per-user,** so each user sees and changes only their own rows. Name the tables found.
 - **Existing rows,** only if some exist and data becomes per-user: assign them to the first user who signs up, delete them, or keep them shared.
@@ -43,4 +39,4 @@ Read [better-auth.md](./references/better-auth.md), and [email.md](./references/
 
 ## 4. Finish
 
-Go through every answer from the question call and confirm the code reflects it; fix what doesn't. Check that the auth tables exist (migrations ran), that the account menu shows the right state on every page, that a failed sign-in shows an error, that every async operation shows its three states, that signed out, the chosen pages redirect and their API calls return 401, and that signed in, users only see and change their own data where it's per-user. With the dev server running, `curl` each private page and API route without a session and confirm the redirect or 401. Reply in at most five lines: the sign-in methods, the pages, and the environment variables to set in production (`BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` as the production URL, and any provider secrets).
+Go through every answer from the question call and confirm the code reflects it; fix what doesn't. Check that the auth tables exist (migrations ran), that on every page the chosen spot shows "Sign in" when signed out and the account menu with sign-out when signed in, that sign-out lands on the sign-in page, that a failed sign-in shows an error, that every async operation shows its three states, that signed out, the chosen pages redirect and their API calls return 401, and that signed in, users only see and change their own data where it's per-user. With the dev server running, `curl` each private page and API route without a session and confirm the redirect or 401. Reply in at most five lines: the sign-in methods, the pages, and the environment variables to set in production (`BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` as the production URL, and any provider secrets).
