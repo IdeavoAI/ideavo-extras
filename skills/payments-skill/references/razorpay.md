@@ -33,9 +33,14 @@ Load `https://checkout.razorpay.com/v1/checkout.js` from Razorpay's CDN; never b
 
 ## Webhooks
 
-Only if the user approved it. The handler verifies before anything else: HMAC-SHA256 of the **raw** body with `RAZORPAY_WEBHOOK_SECRET`, compared timing-safely with `X-Razorpay-Signature`, rejecting a mismatch with 400. Then, through the same idempotent functions, moving statuses only forward: `order.paid` finds the purchase by `provider_ref`, checks the amount and marks it paid; `subscription.*` events update `status` and `current_end`. Answer 2xx within 5 seconds, also for events you ignore.
+The handler (for example `/api/webhooks/razorpay`) verifies before anything else: HMAC-SHA256 of the **raw** body with `RAZORPAY_WEBHOOK_SECRET`, compared timing-safely with `X-Razorpay-Signature`, rejecting a mismatch with 400. Then, through the same idempotent functions, moving statuses only forward: `order.paid` finds the purchase by `provider_ref`, checks the amount and marks it paid; `subscription.*` events update `status` and `current_end`. Answer 2xx within 5 seconds, also for events you ignore.
 
-The merchant registers it in their Razorpay Dashboard after deploying (our token can't use the webhooks API): the deployed URL plus the handler path, those events, and a secret they set as `RAZORPAY_WEBHOOK_SECRET`.
+The user registers it in the Razorpay Dashboard; our token can't use the webhooks API. In the final reply, tell the user to:
+
+1. Open https://dashboard.razorpay.com/app/website-app-settings/webhooks?action=add-new-webhook and switch to Test Mode (test and live keep separate webhooks; the test-mode OTP is `754081`).
+2. Enter a public HTTPS URL (localhost is rejected): the deployed or preview URL plus the handler path.
+3. Select exactly the events the handler handles, each listed by name.
+4. Choose a secret, and set the same value as `RAZORPAY_WEBHOOK_SECRET` in `.env` and in production. Until it's set, the handler rejects every event.
 
 ## Testing
 

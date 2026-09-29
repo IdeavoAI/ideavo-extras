@@ -5,7 +5,7 @@ description: Sets up a PostgreSQL database with Drizzle ORM (Neon is provisioned
 
 # Database
 
-Native: PostgreSQL with Drizzle ORM. Neon is provisioned through the `integration` tool, and the user's own PostgreSQL URL works too. If the project already uses another ORM or database, keep it and follow its official documentation; never switch or add a second one.
+Native: PostgreSQL with Drizzle ORM. Neon is provisioned through the `integration` tool, and the user's own PostgreSQL URL works too. If the project already uses another ORM or database, ask whether to keep it or switch to Drizzle, and never run two; when keeping it, follow its official documentation.
 
 ## When another skill invokes this one
 

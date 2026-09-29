@@ -15,7 +15,7 @@ Set up email and password sign-in with the sign-in and sign-up pages and the hea
 
 In one parallel batch, skipping anything already read in this task, read `ui-skill`'s `SKILL.md` (its rules shape the questions below) and scan: the package manifest, the framework and router, `tsconfig` paths, existing auth code, the ORM config and schema, whether `.env` has `DATABASE_URL`, `BETTER_AUTH_SECRET` and `BETTER_AUTH_URL` (names only), the UI library, the existing layout and header, the data tables, and every page, route or server action that reads or writes them.
 
-If there's no database or Drizzle yet, invoke `database-skill` first; it sets up the shared Drizzle config.
+If there's no database or ORM yet, invoke `database-skill` first; it sets up the shared Drizzle config. With another ORM, use Better Auth's adapter for it (Prisma, Kysely) and its docs instead of `better-auth.md`'s Drizzle steps.
 
 ## 2. Ask once
 
