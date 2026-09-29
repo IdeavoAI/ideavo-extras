@@ -23,9 +23,10 @@ Stop and tell the user when:
 
 ## 2. Ask once
 
+**Provider first.** If the user didn't name a provider and none is integrated, don't use the `question` tool for it. Reply in plain text asking which payment provider they want, listing Razorpay as "Razorpay (recommended for India users)" alongside other providers, then stop and wait for their answer. Ask the remaining questions after they reply.
+
 Ask everything still open in a single `question` call, as separate questions (the tool takes a list), each with its own short options. Skip anything the scan already settled.
 
-- Provider, unless named or already integrated: **Razorpay (Recommended, India only)** or **Other**.
 - What is sold and its price, suggesting what the scan found. The currency must be one the provider supports; never convert prices yourself.
 - One-time or subscription. For subscriptions: billing period, number of billing cycles, free trial, and whether cancelling ends access immediately or at the end of the paid period.
 - Who can buy: signed-in users only, or guests too. Guests only for purchases that grant no ongoing access (donations, one-off services, physical orders); anything that unlocks content or features requires sign-in, and without auth that means `auth-skill` first.
