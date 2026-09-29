@@ -16,15 +16,15 @@ Payments move real money with credentials that control the merchant's account. W
 
 In one parallel batch, skipping anything already read in this task, read `ui-skill`'s `SKILL.md` (its rules shape the questions below) and scan: the package manifest and framework config, ORM config and schema files, whether `.env` has `DATABASE_URL` (the name only), the auth setup, existing payment code (search the source for `razorpay`, `stripe` and `checkout`), and pricing or premium pages.
 
-Stop and tell the user when:
+**Provider first.** If the user didn't name a provider and none is integrated, don't use the `question` tool for it. Reply in plain text asking which payment provider they want, listing Razorpay as "Razorpay (recommended for India users)" alongside other providers, then stop and wait for their answer.
+
+Then stop and tell the user when:
 
 - **There's no server-side code** (API routes, server actions or a backend). Credentials can't be kept safe in the browser. Ask whether they want a server added first, and don't continue with payments until it exists.
 - **There's no database or ORM.** Invoke `database-skill`; it asks how to set one up and runs the migrations. Continue once it's done.
 - **There's no auth** and the user didn't ask for guest checkout. Buyers sign in, so invoke `auth-skill` and continue once it's done.
 
 ## 2. Ask once
-
-**Provider first.** If the user didn't name a provider and none is integrated, don't use the `question` tool for it. Reply in plain text asking which payment provider they want, listing Razorpay as "Razorpay (recommended for India users)" alongside other providers, then stop and wait for their answer. Ask the remaining questions after they reply.
 
 Ask everything still open in a single `question` call, as separate questions (the tool takes a list), each with its own short options. Skip anything the scan already settled.
 
