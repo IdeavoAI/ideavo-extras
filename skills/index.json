@@ -5,12 +5,8 @@
       "description": "Authentication setup and implementation skill",
       "files": [
         "SKILL.md",
-        "references/betterauth.md",
-        "references/drizzle.md",
-        "references/auth-ui.md",
-        "references/email.md",
-        "references/organization.md",
-        "references/settings.md"
+        "references/better-auth.md",
+        "references/email.md"
       ]
     },
     {
@@ -18,11 +14,26 @@
       "description": "Database setup and implementation skill",
       "files": [
         "SKILL.md",
-        "references/drizzle-setup.md",
-        "references/drizzle-schema.md",
-        "references/drizzle-migrations.md",
-        "references/drizzle-pitfalls.md",
-        "references/ui.md"
+        "references/drizzle.md",
+        "references/payments-schema.md"
+      ]
+    },
+    {
+      "name": "payments-skill",
+      "description": "Payments setup and implementation skill",
+      "files": [
+        "SKILL.md",
+        "references/razorpay.md"
+      ]
+    },
+    {
+      "name": "ui-skill",
+      "description": "UI conventions skill",
+      "files": [
+        "SKILL.md",
+        "references/access.md",
+        "references/billing.md",
+        "references/design-taste.md"
       ]
     }
   ]
