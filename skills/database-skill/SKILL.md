@@ -1,134 +1,39 @@
 ---
 name: database-skill
-description: Database setup and implementation skill. Use this skill whenever the user asks to add a database, set up an ORM, create tables or schemas, run migrations, add CRUD operations, connect to PostgreSQL/MySQL/SQLite, or use Drizzle, Prisma, TypeORM, Sequelize, or Mongoose. Also trigger when the user mentions Neon, PlanetScale, Supabase (database only), or any data persistence need. Even if the request is vague like "add a database", "store this data", or "set up tables", use this skill.
+description: Sets up a PostgreSQL database with Drizzle ORM (Neon is provisioned natively) and adds tables and migrations. Use this skill whenever the user asks to add a database, store data, create tables or schemas, or run migrations, or mentions Drizzle, Neon or PostgreSQL, even if they only say something like "save this data" or "add a database".
 ---
 
-You are a senior database systems expert. You design and implement secure, type-safe database architectures from start to finish — scanning the project, gathering requirements, and writing all the code yourself.
+# Database
 
-## Reference Files
+Native: PostgreSQL with Drizzle ORM. Neon is provisioned through the `integration` tool, and the user's own PostgreSQL URL works too. If the project already uses another ORM or database, ask whether to keep it or switch to Drizzle, and never run two; when keeping it, follow its official documentation.
 
-Load only when reached in the implementation flow — do not load all at once:
+## When another skill invokes this one
 
-- **[setup.md](./references/setup.md)** — Load at Phase 3. Package install, database connection, `drizzle.config.ts`, and `package.json` scripts.
-- **[drizzle-schema.md](./references/drizzle-schema.md)** — Load at Phase 4. Schema definition, CRUD API routes, and seed file patterns.
-- **[drizzle-migrations.md](./references/drizzle-migrations.md)** — Load at Phase 5. Migration commands, common patterns, and failure protocol.
-- **[ui.md](./references/ui.md)** — Load at Phase 6. Toast setup, custom hook pattern, loading states, and UI checklist.
-- **[drizzle-pitfalls.md](./references/drizzle-pitfalls.md)** — Load at Phase 7. Schema mistakes, migration rules, environment checks, and post-implementation checklist.
+Do only the setup: the connection, Drizzle, the tables that skill asks for, and migrations. Reuse the scan already done, ask only what's missing, and skip API routes, UI and the final checks.
 
-## Phase 1: Scan & Plan (Required Before Any Code)
+## 1. Scan
 
-### Step 1: Scan the project
+In one parallel batch, skipping anything already read in this task, read `ui-skill`'s `SKILL.md` (its rules shape the questions below) and scan: the package manifest, `tsconfig` paths, existing ORM config and schema files, the migrations folder, whether `.env` has `DATABASE_URL` (the name only), where shared server code lives (`src/lib`, `lib`, `server` or `db`), the router style, and the app's current data sources: `localStorage` or `sessionStorage`, mock data, hardcoded arrays and in-memory stores, with the types, components and routes that use them.
 
-Use the **Explore subagent** to perform this scan. Analyze the codebase to auto-detect:
-- **Framework** — Look for `next.config`, `svelte.config`, `nuxt.config`, `astro.config`, `vite.config`, or Express/Hono entry files.
-- **ORM** — Look for `prisma/schema.prisma`, `drizzle.config.ts`, or `package.json` deps (`drizzle-orm`, `prisma`, `typeorm`, `sequelize`, `mongoose`).
-- **Existing schema** — Look for existing schema files (`db/schema.ts`, `src/lib/db/`, `src/db/`, `lib/db/`) and migration directories.
-- **Package manager** — Check for `pnpm-lock.yaml`, `yarn.lock`, `bun.lockb`, or `package-lock.json`.
-- **Directory structure** — Determine where database files live (`src/lib/db`, `lib/db`, `src/db`, `db`).
-- **Framework routing** — Detect App Router vs Pages Router for API route placement.
-- **Environment** — Read `.env` to check for `DATABASE_URL`.
-- **Data models** — Read existing components, pages, API routes, and TypeScript interfaces to infer what tables are needed. Look for localStorage/sessionStorage usage, mock data, or hardcoded arrays that should move to the DB.
+## 2. Ask once
 
-Use what you find to pre-fill defaults and skip questions you can already answer.
+Ask everything still open in a single `question` call, as separate questions (the tool takes a list), each with its own short options. Skip anything the scan already settled.
 
-### Step 2: Ask planning questions
+- Database, unless `DATABASE_URL` exists: **provision Neon (Recommended)** or use their own PostgreSQL URL.
+- The tables, inferred from the request and the current data sources.
+- The API operations the UI needs (list, get, create, update, delete), inferred from how the app uses the data.
+- Seed data: **seed the existing sample data (Recommended when mock data exists)** or start empty.
 
-Use `AskQuestion` to ask the user **all applicable questions in a single call**. Skip any you can confidently answer from the scan.
+## 3. Build
 
-1. **Project type** (skip if obvious)
-   - Options: New project from scratch | Adding database to existing project | Extending existing database schema
+Read [drizzle.md](./references/drizzle.md). To provision Neon, call the `integration` tool with `type: "database"` and `provider: "neon"` and write the returned `DATABASE_URL` to `.env`. Then set up Drizzle, define the tables and run the migrations as `drizzle.md` says.
 
-2. **Framework** (skip if detected)
-   - Options: Next.js (App Router) | Next.js (Pages Router) | SvelteKit | Nuxt | Astro | Express | Hono | Other
+- **Payment tables:** follow [payments-schema.md](./references/payments-schema.md), and never add generic create, update or delete routes for them.
+- **Schema:** normalized, with foreign keys between related tables. When extending, keep existing tables and never drop or rename a column without the user's confirmation.
+- **API routes** for each chosen operation, in the framework's route convention: validate input with `drizzle-zod`, write only the fields the route allows (never the raw request body), and wrap database calls so errors return a friendly message.
+- **Wire the app:** replace every `localStorage`, mock or in-memory data source with these routes, following the project's existing data-fetching convention, following `ui-skill`'s rules for layout, states and forms. Every route has a matching UI action, and every async operation gets its three states, as the user chose.
+- **Seed**, if chosen: `<lib>/seed.ts` and a `db:seed` script.
 
-3. **ORM** (skip if detected; default to Drizzle if unspecified)
-   - Options: Drizzle ORM | Prisma | TypeORM | Sequelize | Mongoose (MongoDB) | Raw SQL driver
+## 4. Finish
 
-4. **Database provider** (skip if DATABASE_URL present)
-   - Options: Neon (PostgreSQL, serverless) | Supabase (PostgreSQL) | PlanetScale (MySQL) | Local PostgreSQL | Local MySQL | Local SQLite | MongoDB Atlas | Other
-
-5. **Tables / schema** (always ask if not inferable from codebase)
-   - Ask the user to describe the data they need to store, or confirm inferred tables from the scan.
-
-6. **API routes needed** (always ask, allow multiple)
-   - Options: GET all | GET by ID | POST create | PUT/PATCH update | DELETE | None (schema only)
-
-7. **Seed data** (always ask)
-   - Options: Yes, generate seed data | No seed data needed
-
-### Step 3: Conflict & compatibility checks
-
-Before proceeding:
-
-- **Existing ORM conflict**: If an existing ORM setup conflicts with what the user wants, pause and ask the user how they want to handle it before writing any code.
-- **Non-Drizzle request**: If the user wants Prisma, TypeORM, Sequelize, or Mongoose, proceed with that library's own patterns. Do not use Drizzle docs for non-Drizzle ORMs.
-- **Extending existing schema**: Preserve all existing tables. Only add new ones. Never drop or rename columns without explicit user confirmation.
-
-## Phase 2: Environment
-
-Ensure `DATABASE_URL` is set before proceeding to Phase 3.
-
-If absent and the user wants PosgreSQL/Neon provisioned, call the `setupdatabase` tool with `neon` as the provisioner. Set the returned connection string as `DATABASE_URL` in `.env`.
-
-For any other provider, ask the user to supply the connection string directly.
-
-## Phase 3: Setup
-
-Load [setup.md](./references/setup.md) and follow it in full:
-- Install packages for the chosen provider
-- Create `lib/db.ts` (database connection)
-- Create `drizzle.config.ts` at project root
-- Add `db:generate`, `db:migrate`, `db:studio` scripts to `package.json`
-
-For **Prisma**, **TypeORM**, **Sequelize**, or **Mongoose**: use their official documentation patterns. Do not load these reference files.
-
-## Phase 4: Schema
-
-Load [drizzle-schema.md](./references/drizzle-schema.md) and implement:
-- Define all tables in `lib/schema.ts`
-- Export `$inferSelect` / `$inferInsert` types for every table
-- Create CRUD API routes for each requested operation
-- Create `lib/seed.ts` if requested
-
-### Schema design rules
-
-- If user specifies exact tables — use those exactly.
-- If user says "add database" without specifics — infer tables from existing types, components, and API routes.
-- If extending existing schema — preserve all existing tables, add only new ones. Never drop or rename without explicit confirmation.
-- Design normalized schemas with proper relationships (foreign keys, indexes).
-- Every API endpoint must have a corresponding UI action.
-- Add loading states for all data-fetching operations.
-- Never use mock data, localStorage, or in-memory arrays where a database is now available.
-
-## Phase 5: Migrations
-
-Load [drizzle-migrations.md](./references/drizzle-migrations.md) and run:
-
-```bash
-{package_manager} run db:generate
-{package_manager} run db:migrate
-```
-
-Never use `drizzle-kit push` in production. Never suggest `--force` on failure without explicit user confirmation — see failure protocol in [drizzle-migrations.md](./references/drizzle-migrations.md).
-
-## Phase 6: UI Integration
-
-Load [ui.md](./references/ui.md) and complete every item before moving on. This phase is mandatory — do not skip it even if the user did not explicitly ask for UI changes.
-
-**New projects (no existing data-fetching pattern detected):**
-1. Install Sonner and add `<Toaster />` to root layout
-2. Create a `hooks/use-{resource}.ts` hook for every resource that has API routes
-3. Each hook must expose: fetch function, create/update/delete functions, and a `loading` state
-4. Every mutation inside the hook calls `toast.success(...)` on success and `toast.error(...)` on failure
-5. Update components to call the hook — remove any inline fetch logic from components
-
-**Existing projects (data-fetching pattern already present):**
-1. Install Sonner and add `<Toaster />` to root layout if not already present
-2. Follow the existing convention — do not introduce hooks if the project does not already use them
-3. Add success and error toasts to every new mutation, following the existing style
-
-Do not mark this phase complete until every new mutation has a toast and all fetch logic is out of components (new projects only).
-
-## Phase 7: Verify
-
-Load [drizzle-pitfalls.md](./references/drizzle-pitfalls.md) and work through the post-implementation checklist. Do not mark the task complete until all items pass.
+Go through every answer from the question call and confirm the code reflects it; fix what doesn't. Check that the migrations ran, that no `localStorage`, mock or in-memory source remains for the moved data, that every route has a UI action, that every async operation shows its three states, and that code uses the inferred types (no `any`). With the dev server running, call each new API route once with `curl` and confirm it responds as expected. Reply in at most five lines: the tables added, where the schema lives, and the database scripts.

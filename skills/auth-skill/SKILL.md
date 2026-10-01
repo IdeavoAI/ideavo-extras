@@ -1,144 +1,42 @@
 ---
 name: auth-skill
-description: Authentication setup and implementation skill. Use this skill whenever the user asks to add authentication, login, sign-up, sign-in, auth, sessions, OAuth, social login, or any user identity management to their project. Also trigger when the user mentions Better Auth, NextAuth, Clerk, Supabase Auth, Lucia, or any other auth library. Even if the request is vague like "add login" or "set up user accounts", use this skill.
+description: Adds authentication with Better Auth on the project's PostgreSQL database with Drizzle, covering sign-up, sign-in, sessions and protected pages. Use this skill whenever the user asks to add authentication, login, sign-up, user accounts, sessions or social login, or mentions Better Auth, even if they only say something like "add login".
 ---
 
-You are a senior authentication systems expert. You implement secure, type-safe authentication from start to finish — scanning the project, gathering requirements, and writing all the code yourself.
+# Auth
 
-## Reference Files
+Native: Better Auth with Drizzle on PostgreSQL. If the user asks for another library (Clerk, Auth.js, Supabase Auth), use it and follow its official documentation. If the project already has one, ask whether to keep it or migrate to Better Auth; never run two. If Better Auth is already set up, extend its config, schema and pages instead of recreating them.
 
-Load these files **as needed** during implementation:
+## 1. Scan
 
-- **[./betterauth.md](./references/betterauth.md)** — Load when implementing Better Auth. Contains type-safe patterns, configuration examples, session handling, and plugin usage.
-- **[./drizzle.md](./references/drizzle.md)** — Load when using Drizzle ORM for the auth database schema. Contains schema patterns, migration commands, and query examples.
-- **[./auth-ui.md](./references/auth-ui.md)** — Load when wiring up the UI layer. Contains install, Tailwind setup, `AuthUIProvider`, auth/account pages, protected page pattern, and header component.
-- **[./email.md](./references/email.md)** — Load when the user needs to send transactional auth emails. Contains sections for email verification, password reset, the shared `sendEmail` helper, Resend integration, and the full `<EmailTemplate />` props reference.
-- **[./organization.md](./references/organization.md)** — Load **only** when the user mentions organizations, teams, multi-tenancy, org switching, member management, or invitations. Do not load otherwise.
-- **[./settings.md](./references/settings.md)** — Load **only** when the user explicitly asks about account settings, profile settings, security settings, sessions, API keys, passkeys, 2FA setup, or individual settings cards. Do not load otherwise.
+In one parallel batch, skipping anything already read in this task, read `ui-skill`'s `SKILL.md` (its rules shape the questions below) and scan: the package manifest, the framework and router, `tsconfig` paths, existing auth code, the ORM config and schema, whether `.env` has `DATABASE_URL`, `BETTER_AUTH_SECRET` and `BETTER_AUTH_URL` (names only), the UI library, the existing layout and header, the data tables, and every page, route or server action that reads or writes them.
 
-## Phase 1: Scan & Plan (Required Before Any Code)
+If there's no database or ORM yet, invoke `database-skill` first; it sets up the shared Drizzle config. With another ORM, use Better Auth's adapter for it (Prisma, Kysely) and its docs instead of `better-auth.md`'s Drizzle steps.
 
-### Step 1: Scan the project
+## 2. Ask once
 
-Use the **Explore subagent** to perform this scan. Analyze the codebase to auto-detect:
-- **Framework** — Look for `next.config`, `svelte.config`, `nuxt.config`, `astro.config`, `vite.config`, or Express/Hono entry files.
-- **Database/ORM** — Look for `prisma/schema.prisma`, `drizzle.config`, `package.json` deps (`pg`, `mysql2`, `better-sqlite3`, `mongoose`, `mongodb`).
-- **Existing auth** — Look for existing auth libraries (`next-auth`, `lucia`, `clerk`, `supabase/auth`, `firebase/auth`) in `package.json` or imports.
-- **Package manager** — Check for `pnpm-lock.yaml`, `yarn.lock`, `bun.lockb`, or `package-lock.json`.
-- **Existing UI** — Look for shadcn/ui components, Tailwind, existing header/navbar, and protected route patterns.
-- **Environment** — Read `.env` to check for `DATABASE_URL` and `BETTER_AUTH_SECRET`.
+Ask everything still open in a single `question` call, as separate questions (the tool takes a list), each with its own short options. Skip anything the scan already settled.
 
-Use what you find to pre-fill defaults and skip questions you can already answer.
+- Sign-in methods, only if the user mentioned more than email and password (social providers, magic link, passkey). Otherwise use email and password without asking.
+- Features (multiple allowed): email verification, password reset, two-factor authentication, organizations or teams, admin, API keys.
+- Email provider, if a feature sends email: **Resend (Recommended)** or log emails to the console for now.
+- **Sign-in page layout:** centred card (Recommended) or split with a brand panel.
+- **Where the account menu (profile, settings, sign-out) goes:** only containers the app already has (header, navbar or sidebar), with the detected one recommended. Never place it anywhere else or add a second header; if the app has none, offer adding a header in the app's style.
+- **Which pages require sign-in.** List the pages found and let the user pick; pages that show or change data are the recommended defaults.
+- **Whether existing data becomes per-user,** so each user sees and changes only their own rows. Name the tables found.
+- **Existing rows,** only if some exist and data becomes per-user: assign them to the first user who signs up, delete them, or keep them shared.
 
-### Step 2: Ask planning questions
+For social providers, collect their client ID and secret with a follow-up `question` call.
 
-Use `AskQuestion` to ask the user **all applicable questions in a single call**. Skip any you can confidently answer from the scan.
+## 3. Build
 
-1. **Project type** (skip if obvious)
-   - Options: New project from scratch | Adding auth to existing project | Migrating from another auth library
+Read [better-auth.md](./references/better-auth.md), and [email.md](./references/email.md) only if a chosen feature sends email.
 
-2. **Framework** (skip if detected)
-   - Options: Next.js (App Router) | Next.js (Pages Router) | SvelteKit | Nuxt | Astro | Express | Hono | SolidStart | Other
+- **Pages:** sign-in, sign-up and account settings (profile and security) with better-auth-ui, and the account menu where the user chose (see `better-auth.md`).
+- **Features** (two-factor, organizations, admin, API keys): add the Better Auth plugin on the server and client, and its better-auth-ui plugin, following the plugin's docs page.
+- **Secure the app as the user chose:** the chosen pages redirect signed-out users (read `ui-skill`'s `references/access.md`). The pages' routes and server actions return 401 without a session. Per-user tables get a `user_id` foreign key to the auth user table, following the relations rules in `database-skill`'s `drizzle.md` (same type as the user `id`, `cascade` on delete, per-user unique constraints), handle existing rows as chosen, and every read and write on them is scoped to the session user on the server. Implement the three states for every async operation, as the user chose.
+- Use the detected package manager, keep existing infrastructure, confirm before breaking changes, never mock session or user data, and don't add emojis unless the project uses them.
 
-3. **Database & ORM** (skip if detected)
-   - Options: PostgreSQL (Drizzle) | PostgreSQL (Prisma) | PostgreSQL (pg driver) | MySQL (Drizzle) | MySQL (Prisma) | SQLite (Drizzle) | SQLite (Prisma) | MongoDB (Mongoose) | MongoDB (native driver)
+## 4. Finish
 
-4. **Authentication methods** (always ask, allow multiple)
-   - Options: Email & password | Social OAuth (Google, GitHub, etc.) | Magic link (passwordless email) | Passkey (WebAuthn) | Phone number
-
-5. **Social providers** (only if Social OAuth selected — follow-up call)
-   - Options: Google | GitHub | Apple | Microsoft | Discord | Twitter/X
-
-6. **Email verification** (only if Email & password selected — follow-up call)
-   - Options: Yes | No
-
-7. **Email provider** (only if email verification Yes or password reset needed — follow-up call)
-   - Options: Resend | Mock it for now (console.log)
-
-8. **Additional features** (always ask, allow multiple)
-   - Options: Two-factor authentication (2FA) | Organizations / teams | Admin dashboard | API bearer tokens | Password reset | None of these
-
-9. **Auth pages needed** (always ask, allow multiple)
-   - Options vary by earlier answers: Sign in | Sign up | Forgot password | Reset password | Email verification
-
-10. **Auth UI style** (always ask)
-    - Options: Minimal & clean | Centered card with background | Split layout (form + hero image) | Floating / glassmorphism | Other (I'll describe)
-
-### Step 3: Conflict & compatibility checks
-
-Before proceeding:
-
-- **Existing auth conflict**: If an existing auth library conflicts with what the user wants, pause and ask the user how they want to handle it before writing any code.
-- **Non-Better-Auth request**: If the user wants Clerk, NextAuth, Supabase Auth, or another non-native provider, proceed with that library's patterns (do not use Better Auth docs).
-- **OAuth detection**: Include OAuth only if the user explicitly mentioned it or selected social providers. Default to email/password only.
-
-## Phase 2: Environment Setup
-
-### DATABASE_URL
-
-If `DATABASE_URL` is absent from `.env` and the user explicitly wants a PostgreSQL instance provisioned, call the `setupdatabase` tool with `neon` as the provisioner. Set the returned connection string as `DATABASE_URL` in `.env`.
-
-If the user has their own database or wants a different setup, skip this step and ask them to provide `DATABASE_URL` directly.
-
-### Environment variables (`.env`)
-
-```
-BETTER_AUTH_SECRET=<generate with: openssl rand -base64 32>
-NEXT_PUBLIC_BETTER_AUTH_URL=<app origin — correct port in dev, real domain in production; in monorepos use the specific app's URL>
-DATABASE_URL=<your connection string>
-```
-
-### OAuth credentials
-
-If OAuth is required, use the `question` tool to ask the user to provide provider credentials (e.g., `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`) before implementing.
-
-## Phase 3: Load References & Retrieve Docs
-
-- If using **Better Auth**: load [betterauth.md](./references/betterauth.md) to retrieve current API patterns before writing auth configuration.
-- If using **Drizzle**: load [drizzle.md](./references/drizzle.md) for schema and migration patterns.
-- If email sending is required (verification, password reset, magic links): load [email.md](./references/email.md) and use the relevant section — **Email Verification** or **Password Reset**. If `RESEND_API_KEY` is not present in `.env`, use the `askquestion` tool to collect it before implementing.
-- If organizations/teams are required: load [organization.md](./references/organization.md) for `AuthUIProvider` org config, `OrganizationSwitcher`, `OrganizationSettingsCards`, `OrganizationMembersCard`, and `AcceptInvitationCard` patterns.
-- If account/security/settings cards are explicitly requested: load [settings.md](./references/settings.md) for `AccountSettingsCards`, `SecuritySettingsCards`, individual cards (avatar, password, sessions, 2FA, passkeys, API keys, etc.), and custom field patterns.
-- For other providers, use their official documentation patterns directly.
-
-## Phase 4: Implementation
-
-Follow the loaded reference file for all implementation steps. The reference covers auth config, schema generation, migrations, API routes, pages, and UI integration in the correct sequence.
-
-### General rules
-- Preserve all existing infrastructure and logic.
-- Use the detected package manager for all installs.
-- Ask for user confirmation before making breaking changes.
-- Never use mock data for session or user information.
-- Never use emojis or icons in output or comments unless the project already does.
-- **Never hardcode a URL for the auth client `baseURL`.** Always use `baseURL: window.location.origin`. Hardcoded URLs (including `http://localhost:3000`) cause `invalid origin` errors outside localhost and are strictly forbidden.
-
-### Required: UI pages checklist
-
-When using `@daveyplate/better-auth-ui`, you **must** create all of the following — do not skip any, even if not explicitly requested:
-
-- `app/providers.tsx` — `AuthUIProvider` wrapping the root layout
-- `app/auth/[path]/page.tsx` — dynamic auth routes (sign-in, sign-up, etc.)
-- `app/account/[path]/page.tsx` — dynamic account management routes
-- `app/account/settings/page.tsx` — account settings using `AccountSettingsCards`
-- `components/Header.tsx` (or merge into existing header) — `UserButton` wired into the layout
-
-## Phase 5: Verify Common Pitfalls (Mandatory — Do Not Skip)
-
-**This phase is required.** Do not mark the implementation as done until every item below is explicitly checked and resolved. Work through the list one by one.
-
-- [ ] **Header component is wired into the layout.** A header or `UserButton` component that exists in the codebase but is never imported or rendered anywhere provides no auth UI. Confirm it is mounted in the root layout or the relevant shell component.
-- [ ] **Protected routes are actually protected.** Auth being set up does not automatically lock down pages. Verify that routes intended to require a session (dashboard, account, settings, etc.) redirect unauthenticated users — not just the sign-in page itself. **Always protect `/` (the home route) unless the user explicitly says it should be public.** Unauthenticated users landing on the homepage is one of the most common oversights — treat it as a protected route by default.
-- [ ] **Invalid credentials surface an error to the user.** If a failed sign-in attempt only causes the password field to clear (due to a page refresh) with no visible message, the error from the auth call is being swallowed. Ensure the sign-in form catches and displays auth errors inline.
-- [ ] **Database migrations have been run.** A 500 error immediately after setting up auth almost always means the auth tables do not exist yet. Confirm that schema generation and the migrate command were executed successfully before the app was started.
-- [ ] **`NEXT_PUBLIC_BETTER_AUTH_URL` is set.** Both `BETTER_AUTH_URL` (server) and `NEXT_PUBLIC_BETTER_AUTH_URL` (client) must be present. Without the `NEXT_PUBLIC_` prefix the variable is not exposed to the browser, causing a `Missing authorization header` error on API routes.
-- [ ] **Auth client `baseURL` uses `window.location.origin`.** The auth client config **must** set `baseURL: window.location.origin` — never a hardcoded URL like `http://localhost:3000`. A hardcoded URL causes an `invalid origin` error in any non-localhost environment (staging, production, preview deployments). This is a strict requirement with no exceptions.
-- [ ] **Account settings page is created.** Always create `app/account/settings/page.tsx` using `AccountSettingsCards` from `@daveyplate/better-auth-ui`. This page is required for users to manage their account (update name, email, password, etc.) and must not be skipped even when it is not explicitly requested.
-
-## OAuth Detection Logic
-
-Include OAuth **only** if the user explicitly mentions: "OAuth", "social login", "sign in with Google/GitHub/Discord", "third-party auth", or specific provider names.
-
-Do **not** include OAuth for generic requests: "add authentication", "add login", "add auth", "add sign up".
-
-When unclear, default to email/password only.
+Go through every answer from the question call and confirm the code reflects it; fix what doesn't. Check that the auth tables exist (migrations ran), that on every page the chosen spot shows "Sign in" when signed out and the account menu with sign-out when signed in, that sign-out lands on the sign-in page, that a failed sign-in shows an error, that every async operation shows its three states, that signed out, the chosen pages redirect and their API calls return 401, and that signed in, users only see and change their own data where it's per-user. With the dev server running, `curl` each private page and API route without a session and confirm the redirect or 401. Reply in at most five lines: the sign-in methods, the pages, and the environment variables to set in production (`BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` as the production URL, and any provider secrets).
