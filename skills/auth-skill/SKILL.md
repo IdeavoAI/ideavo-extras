@@ -9,7 +9,7 @@ Native: Better Auth with Drizzle on PostgreSQL. If the user asks for another lib
 
 ## 1. Scan
 
-In one parallel batch, skipping anything already read in this task, read `ui-skill`'s `SKILL.md` (its rules shape the questions below) and scan: the package manifest, the framework and router, `tsconfig` paths, existing auth code, the ORM config and schema, whether `.env` has `DATABASE_URL`, `BETTER_AUTH_SECRET` and `BETTER_AUTH_URL` (names only), the UI library, the existing layout and header, the data tables, and every page, route or server action that reads or writes them.
+In one parallel batch, skipping anything already read in this task, read `ui-skill`'s `SKILL.md` (its rules shape the questions below) and scan: the package manifest, the framework and router, `tsconfig` paths, existing auth code, the ORM config and schema, whether `.env` has `DATABASE_URL`, `BETTER_AUTH_SECRET` and `BETTER_AUTH_URL` (check the names with `grep -q`, never read the file), the UI library, the existing layout and header, the data tables, and every page, route or server action that reads or writes them.
 
 If there's no database or ORM yet, invoke `database-skill` first; it sets up the shared Drizzle config. With another ORM, use Better Auth's adapter for it (Prisma, Kysely) and its docs instead of `better-auth.md`'s Drizzle steps.
 
@@ -19,7 +19,7 @@ Ask everything still open in a single `question` call, as separate questions (th
 
 - Sign-in methods, only if the user mentioned more than email and password (social providers, magic link, passkey). Otherwise use email and password without asking.
 - Features (multiple allowed): email verification, password reset, two-factor authentication, organizations or teams, admin, API keys.
-- Email provider, if a feature sends email: **Resend (Recommended)** or log emails to the console for now.
+- Email provider, if a feature sends email: **set up an email service (Recommended)** or log emails to the console for now.
 - **Sign-in page layout:** centred card (Recommended) or split with a brand panel.
 - **Where the account menu (profile, settings, sign-out) goes:** only containers the app already has (header, navbar or sidebar), with the detected one recommended. Never place it anywhere else or add a second header; if the app has none, offer adding a header in the app's style.
 - **Which pages require sign-in.** List the pages found and let the user pick; pages that show or change data are the recommended defaults.

@@ -14,7 +14,7 @@ Payments move real money with credentials that control the merchant's account. W
 
 ## 1. Scan
 
-In one parallel batch, skipping anything already read in this task, read `ui-skill`'s `SKILL.md` (its rules shape the questions below) and scan: the package manifest and framework config, ORM config and schema files, whether `.env` has `DATABASE_URL` (the name only), the auth setup, existing payment code (search the source for `razorpay`, `stripe` and `checkout`), and pricing or premium pages.
+In one parallel batch, skipping anything already read in this task, read `ui-skill`'s `SKILL.md` (its rules shape the questions below) and scan: the package manifest and framework config, ORM config and schema files, whether `.env` has `DATABASE_URL` (check the name with `grep -q`, never read the file), the auth setup, existing payment code (search the source for `razorpay`, `stripe` and `checkout`), and pricing or premium pages.
 
 If anything below is missing, present every gap in one plain-text reply (no `question` tool) and stop. Continue with payments only once none remain.
 
