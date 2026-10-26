@@ -13,7 +13,7 @@ Do only the setup: the connection, Drizzle, the tables that skill asks for, and 
 
 ## 1. Scan
 
-In one parallel batch, skipping anything already read in this task, read `ui-skill`'s `SKILL.md` (its rules shape the questions below) and scan: the package manifest, `tsconfig` paths, existing ORM config and schema files, the migrations folder, whether `.env` has `DATABASE_URL` (the name only), where shared server code lives (`src/lib`, `lib`, `server` or `db`), the router style, and the app's current data sources: `localStorage` or `sessionStorage`, mock data, hardcoded arrays and in-memory stores, with the types, components and routes that use them.
+In one parallel batch, skipping anything already read in this task, read `ui-skill`'s `SKILL.md` (its rules shape the questions below) and scan: the package manifest, `tsconfig` paths, existing ORM config and schema files, the migrations folder, whether `.env` has `DATABASE_URL` (check the name with `grep -q`, never read the file), where shared server code lives (`src/lib`, `lib`, `server` or `db`), the router style, and the app's current data sources: `localStorage` or `sessionStorage`, mock data, hardcoded arrays and in-memory stores, with the types, components and routes that use them.
 
 ## 2. Ask once
 
