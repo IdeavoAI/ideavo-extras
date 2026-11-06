@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import os from "node:os";
+
 function getArg(name) {
   const prefix = `${name}=`;
   const inline = process.argv.find((arg) => arg.startsWith(prefix));
@@ -13,6 +16,7 @@ const ALLOWED_ORIGINS = new Set([
   "http://localhost:8081",
   "https://ideavo.ai"
 ]);
+const CPU_SAMPLE_MS = 200;
 
 if (!LOG_PATH || !Number.isSafeInteger(PORT) || PORT <= 0) {
   console.error("Usage: bun server.js --file <logs.ndjsonl> --port <port>");
@@ -61,6 +65,50 @@ async function readFromOffset(offset) {
   return {
     text: new TextDecoder().decode(bytes.slice(start, safeEnd)),
     offset: offset + safeEnd
+  };
+}
+
+async function readMetrics() {
+  const cpuTimes = () =>
+    os.cpus().reduce(
+      (sum, { times }) => ({
+        idle: sum.idle + times.idle,
+        total:
+          sum.total + times.user + times.nice + times.sys + times.idle + times.irq
+      }),
+      { idle: 0, total: 0 }
+    );
+  const start = cpuTimes();
+  await Bun.sleep(CPU_SAMPLE_MS);
+  const end = cpuTimes();
+  const elapsed = end.total - start.total;
+
+  const meminfo = readFileSync("/proc/meminfo", "utf8");
+  const memoryBytes = (key) =>
+    Number(meminfo.match(new RegExp(`^${key}:\\s+(\\d+)`, "m"))[1]) * 1024;
+  const memoryTotal = memoryBytes("MemTotal");
+
+  const df = Bun.spawn(["df", "-B1", "--output=size,used", import.meta.dir]);
+  const dfOutput = await new Response(df.stdout).text();
+  const [diskTotal, diskUsed] = dfOutput
+    .trim()
+    .split("\n")
+    .at(-1)
+    .trim()
+    .split(/\s+/)
+    .map(Number);
+  if (!Number.isSafeInteger(diskTotal)) throw new Error("Invalid df output");
+
+  return {
+    cpu: {
+      usage: elapsed > 0 ? 100 * (1 - (end.idle - start.idle) / elapsed) : 0,
+      cores: os.cpus().length
+    },
+    memory: {
+      total: memoryTotal,
+      used: memoryTotal - memoryBytes("MemAvailable")
+    },
+    disk: { total: diskTotal, used: diskUsed }
   };
 }
 
@@ -124,8 +172,16 @@ Bun.serve({
           success: true,
           logPath: LOG_PATH,
           port: PORT,
-          endpoints: ["GET /", "GET /?offset=0", "GET /health"]
+          endpoints: ["GET /", "GET /?offset=0", "GET /health", "GET /metrics"]
         }),
+        { headers: { "Content-Type": "application/json" } },
+        request
+      );
+    }
+
+    if (url.pathname === "/metrics") {
+      return response(
+        JSON.stringify(await readMetrics()),
         { headers: { "Content-Type": "application/json" } },
         request
       );
